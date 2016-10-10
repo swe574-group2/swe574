@@ -9,4 +9,4 @@
 |  <a href="https://github.com/swe574-group2/swe574/issues/12">#12</a>                | -          | 15 minutes          | Got the use case diagram, removed the "hide annotation" use case since its not in our musts or shoulds, got a png output and uploaded to the UML Design Diagrams wiki page.|
 |  <a href="https://github.com/swe574-group2/swe574/issues/13">#13</a>                | -          | 20 minutes          | Been checking the ZenHub add-on. I think it's quite nice. Now I'm advertising in our issues. Hoping my teammates will catch up. Let's burn down some issues.|
 |  <a href="https://github.com/swe574-group2/swe574/issues/21">#21</a>                | 15 minutes       | 30 minutes          | Sent the notes I took in the last course to my project mates|
-|  <a href="https://github.com/swe574-group2/swe574/issues/21">#9</a>                | 120 minutes       |          | Sent the notes I took in the last course to my project mates|
+|  <a href="https://github.com/swe574-group2/swe574/issues/21">#9</a>                | 120 minutes       | 150 minutes         | Project Plan version 0.5 ready in the repo|
