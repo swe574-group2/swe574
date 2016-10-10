@@ -9,4 +9,5 @@
 * 2 October. Worked on requirements doc, worked on the consistency of 2 different views of requirements, and language. (3 hours)
 
 ## WEEK 3 (3 October - 10 October)
+* 4 October. Created a wiki and issue for meeting notes and updated the home page for references (0.5 hours)
 * 9 October. Met with the project group. Worked on project planning. (2 hours)
