@@ -11,3 +11,6 @@
 ## WEEK 3 (3 October - 10 October)
 * 4 October. Created a wiki and issue for meeting notes and updated the home page for references (0.5 hours)
 * 9 October. Met with the project group. Worked on project planning. (2 hours)
+
+## WEEK 4 (10 October - 17 October)
+* 10 October. Finalized the project plan. Catched up with the team activities on GitHub (1 hour)
