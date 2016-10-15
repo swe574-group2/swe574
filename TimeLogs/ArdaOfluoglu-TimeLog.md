@@ -14,3 +14,4 @@
 
 ## WEEK 4 (10 October - 17 October)
 * 10 October. Finalized the project plan. Catched up with the team activities on GitHub (1 hour)
+* 15 October. Met up with the team. Created an activity diagram for viewing and creating annotations scenario. Adjusted the project plan's delivery date, time dedicated to authorization work, and tecnholoies research. (3.5 hours)
