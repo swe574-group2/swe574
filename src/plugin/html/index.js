@@ -3,3 +3,14 @@ document.addEventListener("click", function(e) {
         cat.showAnnotations();
     }
 });
+
+var plugin=(function () {
+    return {
+        alert:function () {
+            alert("here");
+        },
+        textSelected:function (selection) {
+            plugin.alert(selection.toString())
+        }
+    }
+})();

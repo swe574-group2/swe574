@@ -3,13 +3,11 @@
   "manifest_version": 2,
   "name": "Cat",
   "version": "1.0",
-
   "description": "Web Annotations plug-in for firefox.",
-
   "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self'",
   "browser_action": {
     "default_icon": {
-      "38": "img/cat_48.jpg"
+      "255": "img/cat_48.jpg"
     },
     "default_title": "Cat",
     "default_popup": "html/index.html"
@@ -21,7 +19,14 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["js/jquery.min.js","js/content_script.js"]
+      "js": ["js/jquery.min.js",
+              "js/content_script.js",
+              "jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.min.js"
+            ],
+      "css":[
+              "jquery.imgareaselect-0.9.10/css/imgareaselect-animated.css",
+              "css/bootstrap/css/bootstrap.css"
+            ]
     }
   ]
 }

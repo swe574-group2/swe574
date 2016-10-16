@@ -1,36 +1,108 @@
-
 $(document).ready(function () {
     console.log("cat is started...")
-
-})
-function addAnnotationsContainer(){
-    $("body").append("<div id='cat-annotations-container'/>;")
-    var $catContainer=$("#cat-annotations-container");
-    $catContainer.css({
-        "position":"fixed",
-        "width":"300px",
-        "height":"100%",
-        "right":"0",
-        "top":"0",
-        "background-color":"#cccccc"
+    $('img').imgAreaSelect({
+        handles: true,
+        onSelectEnd: function (e,selection) {
+            $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview'>")
+        },
+        onSelectChange: preview
     });
 
+})
+
+function preview(img, selection) {
+    var scaleX = 100 / (selection.width || 1);
+    var scaleY = 100 / (selection.height || 1);
+if($("#cat-annotations-container .panel-body #cat-image-preview").length==0) {
+    $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview' style='float: left; position: relative; overflow: hidden; width: 100px; height: 100px;' />")
+}
+    $("#cat-image-preview").html("<img src='"+img.src+"' />");
+
+
+var imgWidth=$(img).width();
+    var imgHeight=$(img).height();
+
+    $('#cat-annotations-container .panel-body #cat-image-preview > img').css({
+        width: Math.round(scaleX * imgWidth) + 'px',
+        height: Math.round(scaleY * imgHeight) + 'px',
+        marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
+        marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
+    });
 }
 
+function addAnnotationsContainer() {
+    if ($("#cat-annotations-container").length > 0) {
+        $("#cat-annotations-container").removeClass("hide");
+        return;
+    }
+    $("body").append("<div id='cat-annotations-container'/>")
+    var $catContainer = $("#cat-annotations-container");
+    $catContainer.css({
+        "position": "fixed",
+        "width": "300px",
+        "height": "100%",
+        "right": "0",
+        "top": "0",
+        "z-index": "100000000000",
+        "background-color": "rgb(255, 255, 255)",
+        "border-left": "3px solid #000"
+    });
+    $catContainer.html("<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
+        "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
+        "</div></div>")
+}
+
+function removeAnnotationsContainer() {
+    $("#cat-annotations-container").addClass("hide");
+}
+
+/** click event **/
 
 window.addEventListener("click", notifyExtension);
 
 function notifyExtension(e) {
-
-    chrome.runtime.sendMessage({"url": "asd"});
-    console.log("sending message")
+    if (e.target.id == "closeAnnotator") {
+        console.log("closing annotator")
+        removeAnnotationsContainer();
+        return;
+    }
+    /*chrome.runtime.sendMessage({"url": "asd"});
+     console.log("sending message")*/
 }
+
+/** end of click event **/
+
+//** text select event **/
+
+window.addEventListener("mouseup", selectHandler);
+
+function selectHandler(e) {
+    var slct = window.getSelection();
+    if (slct.anchorOffset != slct.focusOffset) {
+        console.log("text selected: ", getSelectionText())
+        chrome.runtime.sendMessage({"action": "textSelected", "selection": slct});
+    }
+}
+
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
+    }
+    return text;
+}
+
+//** end text select event **/
 
 chrome.runtime.onMessage.addListener(handleMessage);
 
-function handleMessage(message){
-  console.log("handing message",message)
-    if(message.action=="showAnnotations"){
+function handleMessage(message) {
+    console.log("handing message", message)
+    if (message.action == "showAnnotations") {
         addAnnotationsContainer();
+    } else if (message.action == "hideAnnotations") {
+        removeAnnotationsContainer();
     }
 }

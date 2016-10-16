@@ -11,8 +11,12 @@ chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message){
     console.log("cat recieved message",message)
-    chrome.tabs.getSelected(null, function(tab) {
+    /*chrome.tabs.getSelected(null, function(tab) {
         chrome.tabs.sendMessage(tab[0].id, {message: message});
-    });
+    });*/
+    if(message.action=="textSelected"){
+        plugin.textSelected(message.selection);
+    }
+
 
 }
