@@ -102,14 +102,14 @@
     </tr>
     <tr>
         <td>4</td>
-        <td><a href="https://github.com/swe574-group2/swe574/issues/23">#13</a></td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/23">#23</a></td>
         <td>1.5 hours</td>
         <td>2 hours</td>
         <td>Created "Activity Diagrams" for the creation and deletion of the annotations with my team member Arda.</td>
     </tr>
     <tr>
         <td>4</td>
-        <td><a href="https://github.com/swe574-group2/swe574/issues/28">#13</a></td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/28">#28</a></td>
         <td>1 hours</td>
         <td>2.5 hours</td>
         <td>Created initial spring boot project and made a simple working annotation system.</td>
