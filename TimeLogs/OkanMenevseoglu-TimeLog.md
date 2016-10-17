@@ -54,7 +54,7 @@
     <tr>
         <td>2</td>
         <td><a href="https://github.com/swe574-group2/swe574/issues/11">#11</a></td>
-        <td>1,5 hours</td>
+        <td>1.5 hours</td>
         <td>4 hours</td>
         <td>Drawn mockups of the system in detail by using "Balsamiq Mockups 3". There are 8 mockups in total.</td>
     </tr>
@@ -82,7 +82,7 @@
     <tr>
         <td>3</td>
         <td><a href="https://github.com/swe574-group2/swe574/issues/13">#13</a></td>
-        <td>1,5 hours</td>
+        <td>1.5 hours</td>
         <td>2 hours</td>
         <td>Learned how to use ZenHub add-on. Found it pretty useful.</td>
     </tr>
@@ -99,6 +99,20 @@
         <td>30 minutes</td>
         <td>30 minutes</td>
         <td>Made a decent file hierarchy for the project files on GitHub.</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/23">#13</a></td>
+        <td>1.5 hours</td>
+        <td>2 hours</td>
+        <td>Created "Activity Diagrams" for the creation and deletion of the annotations with my team member Arda.</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/28">#13</a></td>
+        <td>1 hours</td>
+        <td>2.5 hours</td>
+        <td>Created initial spring boot project and made a simple working annotation system.</td>
     </tr>
     <tr>
         <td></td>
