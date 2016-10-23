@@ -10,14 +10,10 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Creator extends AbstractEntity {
-<<<<<<< Updated upstream
-=======
-
     @Id
     @GeneratedValue
     private long creatorId;
 
->>>>>>> Stashed changes
     @Column(nullable = false, columnDefinition = "TEXT")
     private String name;
 
