@@ -20,9 +20,11 @@ public class Annotation extends AbstractEntity {
     @Column(nullable = false)
     private String motivation;
 
-    @Column(nullable = false)
+    @OneToOne
+    @JoinColumn(name="AnnotationBody", nullable = false)
     private AnnotationBody body;
 
-    @Column(nullable = false)
+    @OneToOne
+    @JoinColumn(name="AnnotationTarget", nullable = false)
     private AnnotationTarget target;
 }

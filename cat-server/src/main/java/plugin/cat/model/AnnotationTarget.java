@@ -4,18 +4,21 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 /**
  * Created by Arda on 10/23/2016.
  */
 @Data
 @Entity
-public class AnnotationTarget {
+public class AnnotationTarget extends AbstractEntity {
     // Url
     @Column(nullable = false, columnDefinition = "TEXT")
     private String source;
 
     // Selection information
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @OneToOne
+    @JoinColumn(name="Selector", nullable = false)
     private Selector selector;
 }
