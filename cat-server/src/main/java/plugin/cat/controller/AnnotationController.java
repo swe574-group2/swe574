@@ -10,7 +10,7 @@ import plugin.cat.service.IAnnotationService;
  * Controller class that handles request and response methods of the annotation operations.
  */
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping(value = "/annotation")
 public class AnnotationController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class AnnotationController {
         return annotationService.getAnnotation(id);
     }
     
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public void addAnnotation(@RequestBody Annotation annotation) {
         annotationService.saveAnnotation(annotation);
     }
@@ -35,4 +35,11 @@ public class AnnotationController {
     public void deleteAnnotation(@PathVariable("id") short id) {
         annotationService.deleteAnnotation(id);
     }
+
+    @RequestMapping(value = "/count", method = RequestMethod.POST)
+    public int addAnnotation(@RequestBody String url) {
+        return 12883;
+    }
+
+
 }
