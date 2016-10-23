@@ -10,10 +10,6 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Creator extends AbstractEntity {
-    @Id
-    @GeneratedValue
-    private long creatorId;
-
     @Column(nullable = false, columnDefinition = "TEXT")
     private String name;
 
