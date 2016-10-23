@@ -10,11 +10,13 @@ $(document).ready(function () {
 
 })
 
+var isCatActive=false;
+
 function preview(img, selection) {
     var scaleX = 100 / (selection.width || 1);
     var scaleY = 100 / (selection.height || 1);
 if($("#cat-annotations-container .panel-body #cat-image-preview").length==0) {
-    $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview' style='float: left; position: relative; overflow: hidden; width: 100px; height: 100px;' />")
+    $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview' style='float: left; overflow-y:auto;   position: relative; overflow: hidden; width: 100px; height: 100px;' />")
 }
     $("#cat-image-preview").html("<img src='"+img.src+"' />");
 
@@ -31,6 +33,7 @@ var imgWidth=$(img).width();
 }
 
 function addAnnotationsContainer() {
+    isCatActive=true;
     if ($("#cat-annotations-container").length > 0) {
         $("#cat-annotations-container").removeClass("hide");
         return;
@@ -54,6 +57,7 @@ function addAnnotationsContainer() {
 
 function removeAnnotationsContainer() {
     $("#cat-annotations-container").addClass("hide");
+    isCatActive=false;
 }
 
 /** click event **/
@@ -65,9 +69,11 @@ function notifyExtension(e) {
         console.log("closing annotator")
         removeAnnotationsContainer();
         return;
+    }else if(e.target.id=='btnSaveTextAnnotation'){
+        console.log("saving text-annotation");
+        chrome.runtime.sendMessage({"action":"saveTextAnnotation",data:common.getTextAnnotation()});
     }
-    /*chrome.runtime.sendMessage({"url": "asd"});
-     console.log("sending message")*/
+
 }
 
 /** end of click event **/
@@ -77,10 +83,11 @@ function notifyExtension(e) {
 window.addEventListener("mouseup", selectHandler);
 
 function selectHandler(e) {
+    if(isCatActive==false) return;
     var slct = window.getSelection();
     if (slct.anchorOffset != slct.focusOffset) {
         console.log("text selected: ", getSelectionText())
-        chrome.runtime.sendMessage({"action": "textSelected", "selection": slct});
+         common.textAnnotationForm(slct);
     }
 }
 
@@ -104,5 +111,7 @@ function handleMessage(message) {
         addAnnotationsContainer();
     } else if (message.action == "hideAnnotations") {
         removeAnnotationsContainer();
+    }else if(message.action=="addTextSelectionForm"){
+        common.textAnnotationForm(message.selection);
     }
 }

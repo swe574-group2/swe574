@@ -1,5 +1,4 @@
 {
-
   "manifest_version": 2,
   "name": "Cat",
   "version": "1.0",
@@ -13,20 +12,34 @@
     "default_popup": "html/index.html"
   },
   "background": {
-    "scripts": ["js/jquery.min.js","js/cat.js"]
+    "scripts": [
+      "js/jquery.min.js",
+      "js/cat.js",
+      "js/common.js"
+    ]
   },
-  "permissions": ["tabs", "<all_urls>", "contextMenus"],
+  "permissions": [
+    "http://*/",
+    "tabs",
+    "<all_urls>",
+    "contextMenus"
+
+  ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["js/jquery.min.js",
-              "js/content_script.js",
-              "jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.min.js"
-            ],
-      "css":[
-              "jquery.imgareaselect-0.9.10/css/imgareaselect-animated.css",
-              "css/bootstrap/css/bootstrap.css"
-            ]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/jquery.min.js",
+        "js/content_script.js",
+        "js/common.js",
+        "jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.min.js"
+      ],
+      "css": [
+        "jquery.imgareaselect-0.9.10/css/imgareaselect-animated.css",
+        "css/bootstrap/css/bootstrap.css"
+      ]
     }
   ]
 }
