@@ -11,11 +11,10 @@ import javax.persistence.MappedSuperclass;
  */
 
 @MappedSuperclass
-public abstract class AbstractAnnotation {
-
+public abstract class AbstractEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String id;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String type;
-
 }
