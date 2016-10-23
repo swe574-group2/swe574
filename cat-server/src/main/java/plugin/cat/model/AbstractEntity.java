@@ -2,9 +2,7 @@ package plugin.cat.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * Created by tolgacaner on 23/10/16.
@@ -12,9 +10,18 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
+    // Database primary key
+    @Id
+    @GeneratedValue
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String entityId;
+
+    // W3C id
     @Column(nullable = false, columnDefinition = "TEXT")
     private String id;
 
+    // For selectors: "TextPositionSelector", "SvgSelector", etc
+    // For targets: "Text", "Image"
     @Column(nullable = false, columnDefinition = "TEXT")
     private String type;
 }

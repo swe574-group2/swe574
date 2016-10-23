@@ -11,27 +11,18 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-public class Annotation extends AbstractAnnotation{
-//
-    @Id
-    @GeneratedValue
-    private long annotationId;
-
+public class Annotation extends AbstractEntity {
     @JsonProperty("@context")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String context;
 
+    // "Comment", "Translation" etc
     @Column(nullable = false)
     private String motivation;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String body;
+    @Column(nullable = false)
+    private AnnotationBody body;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String target;
-    /*
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    private Creator creator;
-    */
+    @Column(nullable = false)
+    private AnnotationTarget target;
 }

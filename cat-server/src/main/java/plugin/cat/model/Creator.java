@@ -9,12 +9,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Creator extends AbstractAnnotation {
-
-    @Id
-    @GeneratedValue
-    private long creatorId;
-
+public class Creator extends AbstractEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String name;
 
