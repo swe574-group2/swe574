@@ -1,11 +1,9 @@
 package plugin.cat.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -13,26 +11,20 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class Annotation {
-    @Id
-    @GeneratedValue
-    private long id;
-
+public class Annotation extends AbstractEntity {
+    @JsonProperty("@context")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String context;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String annotationId;
-
-    @Column(nullable = false)
-    private String type;
-
+    // "Comment", "Translation" etc
     @Column(nullable = false)
     private String motivation;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String body;
+    @OneToOne
+    @JoinColumn(name="AnnotationBody", nullable = false)
+    private AnnotationBody body;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String target;
+    @OneToOne
+    @JoinColumn(name="AnnotationTarget", nullable = false)
+    private AnnotationTarget target;
 }
