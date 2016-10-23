@@ -11,4 +11,5 @@
 |3|  <a href="https://github.com/swe574-group2/swe574/issues/21">#21</a>                | 15 minutes       | 30 minutes          | Sent the notes I took in the last course to my project mates|
 |3|  <a href="https://github.com/swe574-group2/swe574/issues/9">#9</a>                | 120 minutes       | 150 minutes         | Project Plan version 0.5 ready in the repo|
 |4|  <a href="https://github.com/swe574-group2/swe574/issues/25">#25</a>                | 360 minutes       | 280 minutes         | Class diagrams drawn using draw.io|
-|5|  <a href="https://github.com/swe574-group2/swe574/issues/31">#31</a>                | 180 minutes       | 360 minutes         | Project setup on local computer took too long. Backend is working on local now though the class diagram waits to be implemented fully still. |
+|5|  <a href="https://github.com/swe574-group2/swe574/issues/31">#31</a>                | 60 minutes       | 150 minutes         | Project setup on local computer took too long. Backend is working on local now though. |
+|5|  <a href="https://github.com/swe574-group2/swe574/issues/32">#32</a>                | 120 minutes       | 150 minutes         | The class diagram waits to be implemented fully still. The get count service didn't work yet, it will work after a newly injected bug is resolved. |
