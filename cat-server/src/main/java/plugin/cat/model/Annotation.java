@@ -1,11 +1,9 @@
 package plugin.cat.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -13,19 +11,15 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class Annotation {
+public class Annotation extends AbstractAnnotation{
+//
     @Id
     @GeneratedValue
-    private long id;
+    private long annotationId;
 
+    @JsonProperty("@context")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String context;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String annotationId;
-
-    @Column(nullable = false)
-    private String type;
 
     @Column(nullable = false)
     private String motivation;
@@ -35,4 +29,9 @@ public class Annotation {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String target;
+    /*
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    private Creator creator;
+    */
 }
