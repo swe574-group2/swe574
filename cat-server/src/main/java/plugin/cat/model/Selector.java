@@ -10,6 +10,7 @@ import javax.persistence.Id;
 /**
  * Created by Arda on 10/23/2016.
  */
+
 @Data
 @Entity
 public abstract class Selector extends AbstractEntity {

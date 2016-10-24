@@ -32,8 +32,10 @@ public class Annotation {
     @Column(nullable = false)
     private String motivation;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String body;
+    @OneToOne
+    @JoinColumn(name="AnnotationBody", nullable = false)
+    @Class()
+    private AnnotationBody body;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String target;

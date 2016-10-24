@@ -18,7 +18,7 @@ public class AnnotationServiceImpl implements IAnnotationService {
 
     @Override
     public Iterable<Annotation> getAnnotations() {
-        return annotationRepository.findAll();
+       return annotationRepository.findAll();
     }
 
     @Override
@@ -34,5 +34,10 @@ public class AnnotationServiceImpl implements IAnnotationService {
     @Override
     public void deleteAnnotation(long id) {
         annotationRepository.delete(id);
+    }
+
+    @Override
+    public String getAnnotationCount() {
+        return String.valueOf(annotationRepository.count());
     }
 }

@@ -14,4 +14,6 @@ public interface IAnnotationService {
     void saveAnnotation(Annotation annotation);
 
     void deleteAnnotation(long id);
+
+    String getAnnotationCount();
 }

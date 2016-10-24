@@ -12,15 +12,15 @@ import plugin.cat.service.IAnnotationService;
 @RestController
 @RequestMapping(value = "/annotation")
 public class AnnotationController {
-
+    
     @Autowired
     IAnnotationService annotationService;
-
+    
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public Iterable<Annotation> getAnnotations() {
         return annotationService.getAnnotations();
     }
-
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Annotation getAnnotation(@PathVariable("id") short id) {
         return annotationService.getAnnotation(id);
@@ -31,15 +31,20 @@ public class AnnotationController {
         annotationService.saveAnnotation(annotation);
     }
     
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/annotation", method = RequestMethod.HEAD)
+    public String getAnnotationCount() {
+        return annotationService.getAnnotationCount();
+    }
+    
+    @RequestMapping(value = "/annotation/{id}", method = RequestMethod.DELETE)
     public void deleteAnnotation(@PathVariable("id") short id) {
         annotationService.deleteAnnotation(id);
     }
-
+    
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     public int addAnnotation(@RequestBody String url) {
         return 12883;
     }
-
-
+    
+    
 }
