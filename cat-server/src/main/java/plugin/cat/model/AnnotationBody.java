@@ -1,11 +1,9 @@
 package plugin.cat.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 /**
  * Created by Arda on 10/23/2016.

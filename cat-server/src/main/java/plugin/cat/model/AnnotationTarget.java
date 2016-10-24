@@ -20,6 +20,6 @@ public class AnnotationTarget extends AbstractEntity {
 
     // Selection information
     @OneToOne
-    @JoinColumn(name="Selector", nullable = false)
+    @JoinColumn(nullable = false)
     private Selector selector;
 }

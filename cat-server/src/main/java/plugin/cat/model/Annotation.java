@@ -3,10 +3,7 @@ package plugin.cat.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -33,10 +30,10 @@ public class Annotation {
     private String motivation;
 
     @OneToOne
-    @JoinColumn(name="AnnotationBody", nullable = false)
-    @Class()
-    private AnnotationBody body;
+    @JoinColumn(nullable = false)
+    private AnnotationBody annotationBody;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String target;
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private AnnotationTarget annotationTarget;
 }
