@@ -9,18 +9,19 @@ import javax.persistence.*;
  */
 @Data
 @MappedSuperclass
-public abstract class AbstractEntity {
+public class AbstractEntity {
     // Database primary key
     @Id
     @GeneratedValue
     private long entityId;
 
     // W3C id
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String id;
 
-    // For selectors: "TextPositionSelector", "SvgSelector", etc
+    // For annotations: "Annotation", etc.
+    // For selectors: "TextPositionSelector", "SvgSelector", etc.
     // For targets: "Text", "Image"
-    @Column(nullable = false)
+    // For creators: "Person", etc.
     private String type;
 }
