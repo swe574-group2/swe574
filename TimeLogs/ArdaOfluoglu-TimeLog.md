@@ -15,3 +15,6 @@
 ## WEEK 4 (10 October - 17 October)
 * 10 October. Finalized the project plan. Catched up with the team activities on GitHub (1 hour)
 * 15 October. Met up with the team. Created an activity diagram for viewing and creating annotations scenario. Adjusted the project plan's delivery date, time dedicated to authorization work, and tecnholoies research. (3.5 hours)
+
+## WEEK 5 (17 October - 24 October)
+* 23 October. Setup implementation environment for the server and make sure it worked on my machine. Studied the code on the server side and added new classes to it for modelling the annotation together with its target and body. Experimented on how to store the json-ld for different annotation types. Also, updated the project plan by scheduling annotation implementation tasks before authentication tasks. Did labeling fixes on the plan. (5.5 hours)
