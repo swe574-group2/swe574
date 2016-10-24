@@ -115,6 +115,27 @@
         <td>Created initial spring boot project and made a simple working annotation system.</td>
     </tr>
     <tr>
+        <td>5</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/34">#34</a></td>
+        <td>1 hour</td>
+        <td>1 hour</td>
+        <td>Explained and set up the necessary tools with my team members.</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/35">#35</a></td>
+        <td>1 hours</td>
+        <td>1.5 hours</td>
+        <td>Fixing the entitiy representation of the system</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/31">#31</a></td>
+        <td>4 hours</td>
+        <td>5 hours</td>
+        <td>Researched and implemented inheritence in Hibernate.</td>
+    </tr>
+    <tr>
         <td></td>
         <td></td>
         <td></td>
