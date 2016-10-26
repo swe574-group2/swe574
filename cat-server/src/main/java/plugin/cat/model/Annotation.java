@@ -3,6 +3,7 @@ package plugin.cat.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -22,26 +23,29 @@ public class Annotation extends AbstractEntity {
     @Column(nullable = false)
     private String motivation;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "entity")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Creator creator;
 
     @CreationTimestamp
     @Column(nullable = false)
     private Timestamp created;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationGenerator generator;
 
-    private Timestamp generated;
+    /* IMPORTANT: There is a problem with second timestamp in MYSQL
+    Even though this code is working in H2 memory database, in MYSQL it doesn't work.
+    Will look for solution...
 
-    @OneToOne
+    @UpdateTimestamp
+    private Timestamp generated;*/
+
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationBody body;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationTarget target;
 }

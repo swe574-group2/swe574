@@ -1,5 +1,6 @@
 package plugin.cat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class AbstractEntity {
     // Database primary key
     @Id
     @GeneratedValue
+    @JsonIgnore
     private long entityId;
 
     // W3C id

@@ -1,6 +1,7 @@
 package plugin.cat.model;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 /**
@@ -10,9 +11,9 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Creator extends AbstractEntity {
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String nickName;
+    @Column(nullable = false)
+    private String nickname;
 }
