@@ -33,12 +33,9 @@ public class Annotation extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationGenerator generator;
 
-    /* IMPORTANT: There is a problem with second timestamp in MYSQL
-    Even though this code is working in H2 memory database, in MYSQL it doesn't work.
-    Will look for solution...
-
-    @UpdateTimestamp
-    private Timestamp generated;*/
+    // Caution! This code may cause errors on some MYSQL versions.
+    // Ex. Prefer XAMPP instead of WampServer
+    private Timestamp generated;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
