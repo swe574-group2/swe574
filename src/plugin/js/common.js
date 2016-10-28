@@ -54,7 +54,10 @@ var common = (function () {
             html += "<div class='checkbox'><label><input id='annotation-type' type='checkbox' /> Private </div> ";
 
             html += "<div class='hidden'><input id='annotation-target-selector-start' type='hidden' value='" + selection.anchorOffset + "'/> ";
-            html += "<input id='annotation-target-selector-end' type='hidden' value='" + selection.focusOffset + "'/></div>"
+            html += "<input id='annotation-target-selector-end' type='hidden' value='" + selection.focusOffset + "'/>"
+
+            html += "<input id='annotation-creator-name' type='hidden'>";
+            html += "<input id='annotation-creator-nickName' type='hidden'> </div>";
 
 
             html += "<div class='pull-right'><button id='btnSaveTextAnnotation' class='btn  btn-sm btn-success'>Save</button></div>";
@@ -76,7 +79,22 @@ var common = (function () {
             data.target.selector.type = "TextPositionSelector";
             data.target.selector.start = $("#annotation-target-selector-start").val();
             data.target.selector.end = $("#annotation-target-selector-end").val();
-            data.body = $("#annotation-body").val();
+
+
+            data.creator = {};
+            data.creator.name = $("#annotation-creator-name").val();
+            data.creator.nickName = $("#annotation-creator-nickName").val();
+
+            data.generator = {};
+            data.generator.name = "CatPlugin";
+            data.generator.nickName = "catplugin";
+
+            data.body = {};
+            data.body.value = $("#annotation-body").val();
+            data.body.purpose = $("#annotation-motivation").find('option:selected').val();
+            data.body.annotationSource = "catplugin";
+
+
             console.log(JSON.stringify(data));
             return data;
 
