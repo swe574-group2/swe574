@@ -3,6 +3,7 @@ package plugin.cat.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -22,26 +23,26 @@ public class Annotation extends AbstractEntity {
     @Column(nullable = false)
     private String motivation;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "entity")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Creator creator;
 
     @CreationTimestamp
     @Column(nullable = false)
     private Timestamp created;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationGenerator generator;
 
+    // Caution! This code may cause errors on some MYSQL versions.
+    // Ex. Prefer XAMPP instead of WampServer
     private Timestamp generated;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationBody body;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private AnnotationTarget target;
 }
