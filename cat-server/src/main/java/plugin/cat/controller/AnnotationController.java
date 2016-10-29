@@ -33,7 +33,7 @@ public class AnnotationController {
         annotationService.saveAnnotation(annotation);
     }
 
-    @RequestMapping(value = "/annotation/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteAnnotation(@PathVariable("id") short id) {
         annotationService.deleteAnnotation(id);
     }
