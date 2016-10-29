@@ -15,5 +15,5 @@ public interface IAnnotationService {
 
     void deleteAnnotation(long id);
 
-    String getAnnotationCount();
+    Integer getAnnotationCount(String url);
 }

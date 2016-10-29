@@ -1,10 +1,13 @@
 package plugin.cat.service.impl;
 
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import plugin.cat.model.Annotation;
 import plugin.cat.repository.AnnotationRepository;
 import plugin.cat.service.IAnnotationService;
+
+import java.util.List;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -37,7 +40,8 @@ public class AnnotationServiceImpl implements IAnnotationService {
     }
 
     @Override
-    public String getAnnotationCount() {
-        return String.valueOf(annotationRepository.count());
+    public Integer getAnnotationCount(String url) {
+        Iterable<Annotation> all = annotationRepository.findAllByContext(url);
+        return Lists.newArrayList(all).size();
     }
 }
