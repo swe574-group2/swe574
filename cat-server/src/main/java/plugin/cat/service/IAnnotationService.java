@@ -9,11 +9,9 @@ import plugin.cat.model.Annotation;
 public interface IAnnotationService {
     Iterable<Annotation> getAnnotations();
 
-    Annotation getAnnotation(long id);
+    Iterable<Annotation> getAnnotationsById(String id);
 
     void saveAnnotation(Annotation annotation);
 
-    void deleteAnnotation(long id);
-
-    Integer getAnnotationCount(String url);
+    long countAnnotationsById(String id);
 }

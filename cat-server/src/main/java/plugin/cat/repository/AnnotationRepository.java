@@ -1,11 +1,8 @@
 package plugin.cat.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import plugin.cat.model.Annotation;
-
-import java.util.List;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -13,5 +10,8 @@ import java.util.List;
  */
 @Repository
 public interface AnnotationRepository extends PagingAndSortingRepository<Annotation, Long> {
-    Iterable<Annotation> findAllByContext(String context);
+
+    long countById(String id);
+
+    Iterable<Annotation> findAllById(String id);
 }
