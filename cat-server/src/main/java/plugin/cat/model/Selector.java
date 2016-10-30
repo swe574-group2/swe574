@@ -20,5 +20,5 @@ public class Selector extends AbstractEntity {
 
     // Value is simply a text for text selectors, and svg value for image selectors
     @Column(columnDefinition = "TEXT")
-    private int value;
+    private String value;
 }
