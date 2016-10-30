@@ -1,5 +1,6 @@
 package plugin.cat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,21 +8,22 @@ import javax.persistence.*;
 /**
  * Created by tolgacaner on 23/10/16.
  */
-
+@Data
 @MappedSuperclass
-public abstract class AbstractEntity {
+public class AbstractEntity {
     // Database primary key
     @Id
     @GeneratedValue
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String entityId;
+    @JsonIgnore
+    private long entityId;
 
     // W3C id
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String id;
 
-    // For selectors: "TextPositionSelector", "SvgSelector", etc
+    // For annotations: "Annotation", etc.
+    // For selectors: "TextPositionSelector", "SvgSelector", etc.
     // For targets: "Text", "Image"
-    @Column(nullable = false, columnDefinition = "TEXT")
+    // For creators: "Person", etc.
     private String type;
 }

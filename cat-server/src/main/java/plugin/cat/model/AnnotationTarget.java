@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 /**
  * Created by Arda on 10/23/2016.
  */
+
 @Data
 @Entity
 public class AnnotationTarget extends AbstractEntity {
@@ -19,6 +20,6 @@ public class AnnotationTarget extends AbstractEntity {
 
     // Selection information
     @OneToOne
-    @JoinColumn(name="Selector", nullable = false)
+    @JoinColumn(nullable = false)
     private Selector selector;
 }

@@ -1,8 +1,10 @@
 package plugin.cat.controller;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import plugin.cat.model.Annotation;
+import plugin.cat.model.CountPostBody;
 import plugin.cat.service.IAnnotationService;
 
 /**
@@ -12,15 +14,15 @@ import plugin.cat.service.IAnnotationService;
 @RestController
 @RequestMapping(value = "/annotation")
 public class AnnotationController {
-
+    
     @Autowired
     IAnnotationService annotationService;
-
+    
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public Iterable<Annotation> getAnnotations() {
         return annotationService.getAnnotations();
     }
-
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Annotation getAnnotation(@PathVariable("id") short id) {
         return annotationService.getAnnotation(id);
@@ -30,16 +32,15 @@ public class AnnotationController {
     public void addAnnotation(@RequestBody Annotation annotation) {
         annotationService.saveAnnotation(annotation);
     }
-    
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteAnnotation(@PathVariable("id") short id) {
         annotationService.deleteAnnotation(id);
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
-    public int addAnnotation(@RequestBody String url) {
-        return 12883;
+    public int getAnnotationCount(@RequestBody CountPostBody countPostBody) {
+        Integer count = annotationService.getAnnotationCount(countPostBody.context);
+        return count.intValue();
     }
-
-
 }
