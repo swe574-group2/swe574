@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import plugin.cat.model.Annotation;
 import plugin.cat.request.AnnotationIdRequest;
+import plugin.cat.request.AnnotationsByTextSelectorRequest;
 import plugin.cat.service.IAnnotationService;
 
 /**
@@ -35,5 +36,13 @@ public class AnnotationController {
     @RequestMapping(value = "/countById", method = RequestMethod.POST)
     public long countAnnotationsById(@RequestBody AnnotationIdRequest annotationIdRequest) {
         return annotationService.countAnnotationsById(annotationIdRequest.getId());
+    }
+
+    @RequestMapping(value = "/annotationByTextSelection", method = RequestMethod.POST)
+    public Iterable<Annotation> getAnnotationsByTextSelection(@RequestBody AnnotationsByTextSelectorRequest annotationsByTextSelectorRequest) {
+        return annotationService.getAnnotationsByTextSelection(
+                annotationsByTextSelectorRequest.getId(),
+                annotationsByTextSelectorRequest.getStart(),
+                annotationsByTextSelectorRequest.getEnd());
     }
 }

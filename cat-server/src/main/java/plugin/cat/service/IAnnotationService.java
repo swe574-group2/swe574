@@ -14,4 +14,6 @@ public interface IAnnotationService {
     void saveAnnotation(Annotation annotation);
 
     long countAnnotationsById(String id);
+
+    Iterable<Annotation> getAnnotationsByTextSelection(String id, int start, int end);
 }
