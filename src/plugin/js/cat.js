@@ -1,9 +1,12 @@
 var cat = (function () {
+    var serverUrl="http://localhost:8080";
+    
     return {
+
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
-                cat.post("http://localhost:8080/annotation/count", {context: tabs[0].url}, function (json) {
+                cat.post("/annotation/countById", {"id": tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
@@ -13,14 +16,19 @@ var cat = (function () {
 
         },
         showAnnotations: function () {
-            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    "sender": "cat",
-                    "action": "showAnnotations"
-                }, function (response) {
-                });
-            });
+                chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    cat.post("/annotation/listById", {"id": tabs[0].url}, function (json) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            "sender": "cat",
+                            "action": "showAnnotations",
+                            "data":json
+                        }, function (response) {
+                        });
+                    });
+
+                    });
+
         },
         addTextSelectionForm: function (selection) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -32,18 +40,43 @@ var cat = (function () {
                 });
             });
         },
+
         saveAnnotation: function (annotation) {
             console.log(annotation);
-            cat.post("http://localhost:8080/annotation", annotation, function (json) {
-
+            cat.post("/annotation", annotation, function (json) {
+                //get annotations
+                console.log("show annotations after save");
+                cat.showAnnotations();
             })
 
         },
         post: function (url, data, success) {
+           // console.log(JSON.stringify(data));
             $.ajax({
                 type: "POST",
-                url: url,
-                data: data,
+                url: serverUrl+url,
+                //processData: false,
+                data: JSON.stringify(data),
+                crossDomain: true,
+                success: function (json) {
+                    if (success)
+                        success(json);
+                },
+                error: function (json) {
+                    $("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
+
+                },
+                complete:function (json) {
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+        },
+        get: function (url,data,success){
+            $("#info").html($.stringify(data));
+            $.ajax({
+                type: "GET",
+                url: serverUrl+url+"?"+$.stringify(data),
                 crossDomain: true,
                 success: function (json) {
                     if (success)

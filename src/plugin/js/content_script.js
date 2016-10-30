@@ -52,14 +52,39 @@ function addAnnotationsContainer() {
     });
     $catContainer.html("<div class='panel panel-default' ><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
         "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
+        " <div id='cat-info' style='font-size:12px;width:200px' class='alert alert-warning'>W3 Web Annotator</div><div class='clearfix'></div><hr/>" +
+        "<div id='cat-container-body' style='height: 300px; overflow-y: auto'></div>"+
         "</div></div>")
+}
+function getHeaderHtml(){
+    return "<div class='panel panel-default' ><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
+        "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
+        "</div></div>";
 }
 
 function removeAnnotationsContainer() {
     $("#cat-annotations-container").addClass("hide");
     isCatActive=false;
 }
+function addAnnotations(data){
+    if(data==null || data==undefined) return;
+    var $container=$("#cat-container-body");
+    var html="<div class='row'>";
+    $(data).each(function(i,e){
+        //text selecton
+       if(e.target.selector.type=="TextPositionSelector"){
+           html+="<div class='col-sm-12'>Type : TextSelection </div>";
+           html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
+           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
+           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'><hr /></div>"
+       }
+        //image
+    });
+    html+="</div>";
+    $container.html(html);
 
+}
 /** click event **/
 
 window.addEventListener("click", notifyExtension);
@@ -69,7 +94,13 @@ function notifyExtension(e) {
         console.log("closing annotator")
         removeAnnotationsContainer();
         return;
-    }else if(e.target.id=='btnSaveTextAnnotation'){
+    }
+    else if (e.target.id == "btnCloseTextAnnotation") {
+        console.log("closing annotatation form")
+        $("#cat-container-body").html('');
+        return;
+    }
+    else if(e.target.id=='btnSaveTextAnnotation'){
         console.log("saving text-annotation");
         chrome.runtime.sendMessage({"action":"saveTextAnnotation",data:common.getTextAnnotation()});
     }
@@ -83,10 +114,13 @@ function notifyExtension(e) {
 window.addEventListener("mouseup", selectHandler);
 
 function selectHandler(e) {
-    if(isCatActive==false) return;
+    console.log($(e.target).parents("#cat-annotations-container").length)
+    if(isCatActive==false && $(e.target).parents("#cat-annotations-container").length===1) return;
     var slct = window.getSelection();
+
     if (slct.anchorOffset != slct.focusOffset) {
         console.log("text selected: ", getSelectionText())
+        if($(e.target).parents("#cat-annotations-container").length===0)
          common.textAnnotationForm(slct);
     }
 }
@@ -101,6 +135,8 @@ function getSelectionText() {
     return text;
 }
 
+
+
 //** end text select event **/
 
 chrome.runtime.onMessage.addListener(handleMessage);
@@ -109,6 +145,10 @@ function handleMessage(message) {
     console.log("handing message", message)
     if (message.action == "showAnnotations") {
         addAnnotationsContainer();
+        if(message.data){
+            addAnnotations(message.data);
+        }
+
     } else if (message.action == "hideAnnotations") {
         removeAnnotationsContainer();
     }else if(message.action=="addTextSelectionForm"){
