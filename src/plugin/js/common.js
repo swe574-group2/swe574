@@ -45,7 +45,7 @@ var common = (function () {
 
             var html = "";
             console.log("text selection form", selection, getSelectionText())
-            html += "<div id='cat-text-annotation-panel' class='panel panel-primary'>";
+            html += "<div id='cat-text-annotation-panel' style='overflow: auto' class='panel panel-primary'>";
             html += "<div class='panel-heading'> <h4 class='panel-title'>Add annotation</h4></div>";
             html += "<div class='panel-body'>"
             html += "<p> <b>Target:</b> &nbsp;" + getSelectionText() + "</p>"

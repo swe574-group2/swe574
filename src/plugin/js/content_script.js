@@ -50,7 +50,7 @@ function addAnnotationsContainer() {
         "background-color": "rgb(255, 255, 255)",
         "border-left": "3px solid #000"
     });
-    $catContainer.html("<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
+    $catContainer.html("<div class='panel panel-default' ><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
         "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
         "</div></div>")
 }
