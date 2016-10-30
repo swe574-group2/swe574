@@ -2,10 +2,7 @@ package plugin.cat.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * Created by Arda on 10/23/2016.
@@ -19,7 +16,6 @@ public class AnnotationTarget extends AbstractEntity {
     private String source;
 
     // Selection information
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private Selector selector;
 }
