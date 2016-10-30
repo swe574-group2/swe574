@@ -3,7 +3,7 @@ var cat = (function () {
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
-                cat.post("http://localhost:8080/annotation/count", {url: tabs[0].url}, function (json) {
+                cat.post("http://localhost:8080/annotation/count", {context: tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
