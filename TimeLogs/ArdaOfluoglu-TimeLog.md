@@ -18,3 +18,6 @@
 
 ## WEEK 5 (17 October - 24 October)
 * 23 October. Setup implementation environment for the server and make sure it worked on my machine. Studied the code on the server side and added new classes to it for modelling the annotation together with its target and body. Experimented on how to store the json-ld for different annotation types. Also, updated the project plan by scheduling annotation implementation tasks before authentication tasks. Did labeling fixes on the plan. (5.5 hours)
+
+## WEEK 6 (24 October - 31 October)
+* 30 October. Mostly worked on implementation tasks. Integrated AnnotationTarget to the overall Annotation json representation. Created a web service for querying annotations stored on the server depending the html page url itself and text indexes on the page. Did testing on client and server communication for making sure client and server implementors have no trouble using each others' services. Updated the project plan by adding sections for user guide, features, known bugs, and deployment. Updated the meeting notes. (5 hours)
