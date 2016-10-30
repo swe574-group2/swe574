@@ -22,7 +22,7 @@ public class AnnotationController {
         return annotationService.getAnnotations();
     }
 
-    @RequestMapping(value = "/byId", method = RequestMethod.POST)
+    @RequestMapping(value = "/listById", method = RequestMethod.POST)
     public Iterable<Annotation> getAnnotationsById(@RequestBody AnnotationIdRequest annotationIdRequest) {
         return annotationService.getAnnotationsById(annotationIdRequest.getId());
     }
@@ -32,7 +32,7 @@ public class AnnotationController {
         annotationService.saveAnnotation(annotation);
     }
 
-    @RequestMapping(value = "/count", method = RequestMethod.POST)
+    @RequestMapping(value = "/countById", method = RequestMethod.POST)
     public long countAnnotationsById(@RequestBody AnnotationIdRequest annotationIdRequest) {
         return annotationService.countAnnotationsById(annotationIdRequest.getId());
     }
