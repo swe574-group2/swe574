@@ -41,7 +41,7 @@ public class AnnotationController {
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     public long annotationCount(@RequestBody AnnotationTargetRequestBody annotationIdRequest) {
-        return annotationService.annotationCountForTarget(annotationIdRequest.target);
+        return annotationService.annotationCountForTarget(annotationIdRequest.getTarget());
     }
 
     @RequestMapping(value = "/annotationByTextSelection", method = RequestMethod.POST)
