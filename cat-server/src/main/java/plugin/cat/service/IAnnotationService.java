@@ -13,7 +13,9 @@ public interface IAnnotationService {
 
     void saveAnnotation(Annotation annotation);
 
-    long countAnnotationsById(String id);
+    long countAnnotationsById(String id); //should be deleted
+    long annotationCountForTarget(String id);
+
 
     Iterable<Annotation> getAnnotationsByTextSelection(String id, int start, int end);
 }

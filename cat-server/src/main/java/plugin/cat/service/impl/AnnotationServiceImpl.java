@@ -44,6 +44,11 @@ public class AnnotationServiceImpl implements IAnnotationService {
     }
 
     @Override
+    public long annotationCountForTarget(String target) {
+        return annotationRepository.countByTarget(target);
+    }
+
+    @Override
     public Iterable<Annotation> getAnnotationsByTextSelection(String id, int start, int end) {
         // First get all annotations on the given id (url)
         Iterable<Annotation> allAnnotations = annotationRepository.findAllById(id);
