@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -40,8 +41,9 @@ public class Annotation extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private AnnotationBody body;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AnnotationBodyParent> body;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationTarget target;
