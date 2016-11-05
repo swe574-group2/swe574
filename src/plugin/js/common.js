@@ -1,8 +1,8 @@
 var common = (function () {
-    
-    
+
+
     return {
-        getpluginHeaderHtml:function(){
+        getpluginHeaderHtml: function () {
             return "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div></div class='clearfix'></div><hr/>"
         },
         catContainerSelector: "#cat-annotations-container",
@@ -41,7 +41,7 @@ var common = (function () {
                     console.log(responseData, textStatus, errorThrown)
                 },
                 dataType: "json",
-                contentType: "application/json"
+                //contentType: "application/json"
             });
         },
         textAnnotationForm: function (selection) {
@@ -71,34 +71,69 @@ var common = (function () {
         },
         getTextAnnotation: function () {
 
-            var data = {};
-           // var $form = $("#cat-text-annotation-panel");
-            data.target = {};
-            data.type = "Annotation";
-            data.id = window.location.href
-            data["@context"] = "http://wwww.w3.org/ns/anno.jsonld";
-            data.target.source =  window.location.href
-            data.target.selector = {};
-            data.private= $("#annotation-type").val();
-            data.target.selector.type = "TextPositionSelector";
-            data.target.selector.start = $("#annotation-target-selector-start").val();
-            data.target.selector.end = $("#annotation-target-selector-end").val();
-            data.motivation = $("#annotation-motivation").find('option:selected').val();
-            data.target.selector.value=$("#annotation-target-selector-value").val();
 
-            data.creator = {};
-            data.creator.name = $("#annotation-creator-name").val();
-            data.creator.nickname = $("#annotation-creator-nickName").val();
+            // var $form = $("#cat-text-annotation-panel");
+            var data = {
+                "@context": "http://www.w3.org/ns/anno.jsonld",
+                "type": "Annotation",
+                "id": window.location.href,
+                "private": $("#annotation-type").prop("checked"),
+                "motivation": $("#annotation-motivation").find('option:selected').val(),
+                "target": {
+                    "source": window.location.href,
+                    "selector": {
+                        "type": "TextPositionSelector",
+                        "start": $("#annotation-target-selector-start").val(),
+                        "end": $("#annotation-target-selector-end").val(),
+                        "value": $("#annotation-target-selector-value").val()
+                    }
+                },
+                "body": [{
+                    "items": [{
+                        "value": $("#annotation-body").val(),
+                        "purpose": $("#annotation-motivation").find('option:selected').val(),
+                        "annotationSource": "catplugin"
+                    }]
+                    }
+                ],
+                "creator": {
+                    "name": $("#annotation-creator-name").val(),
+                    "nickname": $("#annotation-creator-nickName").val()
+                },
+                "generator": {
+                    "name": "CatPlugin",
+                    "homePage": "www.catplugin.net"
+                }
+            };
+            /* var data={};
+             data.type = "Annotation";
+             data.id = window.location.href
+             data["@context"] = "http://www.w3.org/ns/anno.jsonld";
+             data.private= $("#annotation-type").val();
+             data.target.selector.type = "TextPositionSelector";
+             data.motivation = $("#annotation-motivation").find('option:selected').val();
 
-            data.generator = {};
-            data.generator.name = "CatPlugin";
-            data.generator.homePage = "www.catplugin.net";
+             data.target={};
+             data.target.source =  window.location.href
+             data.target.selector = {};
+             data.target.selector.start = $("#annotation-target-selector-start").val();
+             data.target.selector.end = $("#annotation-target-selector-end").val();
+             data.target.selector.value=$("#annotation-target-selector-value").val();
 
-            data.body = {};
-            data.body.value = $("#annotation-body").val();
-            data.body.purpose = $("#annotation-motivation").find('option:selected').val();
-            data.body.annotationSource = "catplugin";
+             data.creator = {};
+             data.creator.name = $("#annotation-creator-name").val();
+             data.creator.nickname = $("#annotation-creator-nickName").val();
 
+             data.generator = {};
+             data.generator.name = "CatPlugin";
+             data.generator.homePage = "www.catplugin.net";
+
+             data.body = [{
+             "value" : $("#annotation-body").val(),
+             "purpose" : $("#annotation-motivation").find('option:selected').val(),
+             "annotationSource" : "catplugin"
+             }];
+             */
 
             console.log(JSON.stringify(data));
             return data;
