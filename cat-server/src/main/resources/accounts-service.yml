@@ -1,0 +1,18 @@
+# Spring properties
+spring:
+  application:
+     name: accounts-service
+  data-source:
+    url: dbc:h2:mem:dev
+    driver-class-name: org.h2.Driver
+
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+
+# HTTP Server
+server:
+  port: 8081   # HTTP (Tomcat) port
