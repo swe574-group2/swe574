@@ -9,9 +9,8 @@ import javax.persistence.*;
  * Created by Arda on 10/23/2016.
  */
 @Data
-@MappedSuperclass
+@Entity
 public class AnnotationBody extends AbstractEntity {
-
     @Nullable
     private String purpose;
 

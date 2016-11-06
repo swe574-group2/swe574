@@ -41,8 +41,8 @@ public class Annotation extends AbstractEntity {
     private AnnotationStylesheet stylesheet;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AnnotationBodyParent> body;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AnnotationBody body;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationTarget target;
