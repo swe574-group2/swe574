@@ -21,3 +21,7 @@
 
 ## WEEK 6 (24 October - 31 October)
 * 30 October. Mostly worked on implementation tasks. Integrated AnnotationTarget to the overall Annotation json representation. Created a web service for querying annotations stored on the server depending the html page url itself and text indexes on the page. Did testing on client and server communication for making sure client and server implementors have no trouble using each others' services. Updated the project plan by adding sections for user guide, features, known bugs, and deployment. Updated the meeting notes. (5 hours)
+
+## WEEK 7 (31 October - 07 November)
+* 6 October. Minor fixes on the implementation caused by the changes in the annotation modal. (0.5 hours)
+
