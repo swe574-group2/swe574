@@ -3,6 +3,7 @@ package plugin.cat.accounts;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import plugin.cat.annotation.AnnotationService;
 
 /**
@@ -10,6 +11,7 @@ import plugin.cat.annotation.AnnotationService;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableWebSecurity
 public class AccountsService {
 
     public static void main(String[] args) {
