@@ -1,4 +1,4 @@
-package plugin.cat.model;
+package plugin.cat.annotation.model;
 
 import lombok.Data;
 
@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Creator extends AbstractEntity {
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nickname;
 }

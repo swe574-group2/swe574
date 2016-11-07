@@ -1,5 +1,5 @@
 var cat = (function () {
-    var serverUrl="http://localhost:8080";
+    var serverUrl="http://localhost:1111";
     
     return {
 
@@ -18,6 +18,7 @@ var cat = (function () {
         showAnnotations: function () {
 
                 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    console.log("current tab url:"+tabs[0].url);
                     cat.post("/annotation/listById", {"id": tabs[0].url}, function (json) {
                         chrome.tabs.sendMessage(tabs[0].id, {
                             "sender": "cat",
@@ -55,27 +56,31 @@ var cat = (function () {
             $.ajax({
                 type: "POST",
                 url: serverUrl+url,
-                //processData: false,
                 data: JSON.stringify(data),
                 crossDomain: true,
+                cache:false,
                 success: function (json) {
+                    console.log("success",json)
                     if (success)
                         success(json);
                 },
                 error: function (json) {
-                    $("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
+                   console.log(json)
+                    //$("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
 
                 },
                 complete:function (json) {
+                    console.log("post completed",json)
                 },
-                dataType: "json",
-                contentType: "application/json"
+                //dataType: "json",
+                contentType: "application/json; charset=utf-8"
             });
         },
         get: function (url,data,success){
             $("#info").html($.stringify(data));
             $.ajax({
                 type: "GET",
+                cache:false,
                 url: serverUrl+url+"?"+$.stringify(data),
                 crossDomain: true,
                 success: function (json) {

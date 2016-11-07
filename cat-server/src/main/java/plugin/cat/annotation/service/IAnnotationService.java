@@ -1,6 +1,6 @@
-package plugin.cat.service;
+package plugin.cat.annotation.service;
 
-import plugin.cat.model.Annotation;
+import plugin.cat.annotation.model.Annotation;
 
 /**
  * Created by okanm on 17.10.2016.

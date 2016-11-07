@@ -1,4 +1,4 @@
-package plugin.cat.request;
+package plugin.cat.annotation.request;
 
 import lombok.Data;
 

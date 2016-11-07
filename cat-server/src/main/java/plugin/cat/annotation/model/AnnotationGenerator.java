@@ -1,4 +1,4 @@
-package plugin.cat.model;
+package plugin.cat.annotation.model;
 
 import lombok.Data;
 
@@ -10,8 +10,10 @@ import javax.persistence.Entity;
  */
 @Data
 @Entity
-public class AnnotationStylesheet extends AbstractEntity {
+public class AnnotationGenerator extends AbstractEntity {
+
+    private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String value;
+    private String homePage;
 }

@@ -1,12 +1,14 @@
-package plugin.cat.controller;
+package plugin.cat.annotation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import plugin.cat.model.Annotation;
-import plugin.cat.request.AnnotationIdRequest;
-import plugin.cat.request.AnnotationTargetRequestBody;
-import plugin.cat.request.AnnotationsByTextSelectorRequest;
-import plugin.cat.service.IAnnotationService;
+import plugin.cat.annotation.model.Annotation;
+import plugin.cat.annotation.request.AnnotationIdRequest;
+import plugin.cat.annotation.request.AnnotationTargetRequestBody;
+import plugin.cat.annotation.request.AnnotationsByTextSelectorRequest;
+import plugin.cat.annotation.response.MessageResponse;
+import plugin.cat.annotation.service.IAnnotationService;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -30,8 +32,11 @@ public class AnnotationController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void addAnnotation(@RequestBody Annotation annotation) {
+    public MessageResponse addAnnotation(@RequestBody Annotation annotation) {
         annotationService.saveAnnotation(annotation);
+        MessageResponse response= new MessageResponse();
+        response.setMessage("Added");
+        return response;
     }
 
     @RequestMapping(value = "/countById", method = RequestMethod.POST)

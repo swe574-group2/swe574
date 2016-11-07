@@ -1,15 +1,14 @@
-package plugin.cat.service.impl;
+package plugin.cat.annotation.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import plugin.cat.model.Annotation;
-import plugin.cat.model.AnnotationTarget;
-import plugin.cat.model.Selector;
-import plugin.cat.repository.AnnotationRepository;
-import plugin.cat.service.IAnnotationService;
+import plugin.cat.annotation.model.Annotation;
+import plugin.cat.annotation.model.AnnotationTarget;
+import plugin.cat.annotation.model.Selector;
+import plugin.cat.annotation.repository.AnnotationRepository;
+import plugin.cat.annotation.service.IAnnotationService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 

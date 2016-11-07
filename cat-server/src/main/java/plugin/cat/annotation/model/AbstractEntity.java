@@ -1,4 +1,4 @@
-package plugin.cat.model;
+package plugin.cat.annotation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

@@ -75,13 +75,13 @@ function addAnnotations(data){
        if(e.target.selector.type=="TextPositionSelector"){
            html+="<div class='col-sm-12'>Type : TextSelection </div>";
            html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
-           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
-           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'>Annotation : "+e.body[0].items[0].value+" </div>";
+           html+="<div class='col-sm-12'>Purpose : "+e.body[0].items[0].purpose+" </div>";
            html+="<div class='col-sm-12'><hr /></div>"
        }
         //image
     });
-    html+="</div>";
+    html+="</div>"; 
     $container.html(html);
 
 }
