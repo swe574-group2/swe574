@@ -142,7 +142,7 @@ function getSelectionText() {
 chrome.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message) {
-    console.log("handing message", message)
+    console.log("handing message 111  ", message)
     if (message.action == "showAnnotations") {
         addAnnotationsContainer();
         if(message.data){
@@ -154,4 +154,10 @@ function handleMessage(message) {
     }else if(message.action=="addTextSelectionForm"){
         common.textAnnotationForm(message.selection);
     }
+//ŞK01 B
+    else if(message.action=="login"){
+        console.log("content_script handlemessage: login");
+        //
+    }
+//ŞK01 E
 }
