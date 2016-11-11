@@ -6,6 +6,7 @@ var cat = (function () {
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
+                console.log("cat.js: Retrieving Count");
                 cat.post("/annotation/countById", {"id": tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
@@ -31,6 +32,32 @@ var cat = (function () {
                     });
 
         },
+//ŞK01 B
+        login: function () {
+
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                console.log("cat.js Login");
+                console.log("current tab url:"+tabs[0].url);
+                user = {};
+                user.nickname = $("#username").val();
+                user.password = $("#password").val();
+                alert("nickname " + user.nickname +  " password " + user.password) ;
+
+/*
+                cat.post("/user/authenticate", {"user": user}, function (json) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        "sender": "cat",
+                        "action": "login",
+                        "data":json
+                    }, function (response) {
+                    });
+                });
+*/
+            });
+
+
+        },
+//ŞK01 E
         addTextSelectionForm: function (selection) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 chrome.tabs.sendMessage(tabs[0].id, {
