@@ -21,4 +21,8 @@ public class Selector extends AbstractEntity {
     // Value is simply a text for text selectors, and svg value for image selectors
     @Column(columnDefinition = "TEXT")
     private String value;
+    // conformsTo for fragment selection i.e.: http://www.w3.org/TR/media-frags/
+    //xywh=160,120,320,240        # => results in a 320x240 box at x=160 and y=120
+    @Column(columnDefinition = "TEXT")
+    private String conformsTo;
 }

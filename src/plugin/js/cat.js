@@ -141,6 +141,10 @@ function handleMessage(message) {
         console.log(message.data);
         cat.saveAnnotation(message.data);
 
+    } else if (message.action == "saveImageAnnotation") {
+        console.log("adkhdh");
+        console.log(message.data);
+        cat.saveAnnotation(message.data);
     }
 
 
