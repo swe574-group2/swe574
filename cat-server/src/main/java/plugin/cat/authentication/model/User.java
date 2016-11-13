@@ -32,9 +32,6 @@ public class User implements UserDetails {
     @NotBlank
     private String userType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private UserToken token;
-
     @JsonIgnore
     private String password;
 
