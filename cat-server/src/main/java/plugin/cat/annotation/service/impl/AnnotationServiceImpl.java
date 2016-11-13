@@ -71,7 +71,7 @@ public class AnnotationServiceImpl implements IAnnotationService {
      * @should return what the annotation repository returns
      */
     @Override
-    public long annotationCountForTarget(String target) {
+    public long countAnnotationByTarget (String target) {
         return annotationRepository.countByTarget(target);
     }
 
