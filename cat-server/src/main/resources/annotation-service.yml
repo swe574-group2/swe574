@@ -3,7 +3,7 @@ spring:
   application:
      name: annotation-service
   data-source:
-    url: dbc:h2:mem:dev
+    url: jdbc:h2:mem:dev
     driver-class-name: org.h2.Driver
 
 
