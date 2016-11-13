@@ -1,4 +1,4 @@
-package plugin.cat.accounts.util;
+package plugin.cat.authentication.util;
 
 /**
  * Created by okanm on 7.11.2016.

@@ -1,13 +1,12 @@
-package plugin.cat.accounts.service.impl;
+package plugin.cat.authentication.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import plugin.cat.accounts.model.User;
-import plugin.cat.accounts.repository.IUserRepository;
-import plugin.cat.accounts.service.IUserService;
+import plugin.cat.authentication.model.User;
+import plugin.cat.authentication.repository.IUserRepository;
+import plugin.cat.authentication.service.IUserService;
 
 /**
  * Created by okanm on 7.11.2016.
@@ -28,12 +27,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User getMember(long id) {
+    public User getUser(long id) {
         return userRepository.findOne(id);
     }
 
     @Override
-    public User getMemberByNickname(String nickname) {
+    public User getUserByNickname(String nickname) {
         return userRepository.findOneByNickname(nickname);
     }
 
@@ -49,6 +48,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return this.getMemberByNickname(s);
+        return this.getUserByNickname(s);
     }
 }

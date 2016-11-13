@@ -1,7 +1,7 @@
-package plugin.cat.accounts.service;
+package plugin.cat.authentication.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import plugin.cat.accounts.model.User;
+import plugin.cat.authentication.model.User;
 
 /**
  * Created by okanm on 7.11.2016.
@@ -10,9 +10,9 @@ public interface IUserService extends UserDetailsService {
 
     Iterable<User> getUsers();
 
-    User getMember(long id);
+    User getUser(long id);
 
-    User getMemberByNickname(String nickname);
+    User getUserByNickname(String nickname);
 
     void registerUser(User user);
 

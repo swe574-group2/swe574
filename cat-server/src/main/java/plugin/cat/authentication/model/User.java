@@ -1,4 +1,4 @@
-package plugin.cat.accounts.model;
+package plugin.cat.authentication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import plugin.cat.accounts.util.UserType;
+import plugin.cat.authentication.util.UserType;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -20,7 +20,6 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @JsonIgnore
     @GeneratedValue
     private long id;
 
