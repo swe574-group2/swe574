@@ -18,7 +18,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserRepository userRepository;
 
-/*  Will be enabled after configuration
+/*  Will be enabled after security
     @Autowired
     private PasswordEncoder passwordEncoder;*/
 

@@ -135,7 +135,28 @@
         <td>5 hours</td>
         <td>Researched and implemented inheritence in Hibernate.</td>
     </tr>
+        <tr>
+        <td>6</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/40">#40</a></td>
+        <td>3 hours</td>
+        <td>4 hours</td>
+        <td>Updated controller and service layer for the prototype.</td>
+    </tr>
+        <tr>
+        <td>6</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/31">#31</a></td>
+        <td>1 hour</td>
+        <td>1 hour</td>
+        <td>Updated Hibernate models to match to the JSON-LD annotation model.</td>
+    </tr>
     <tr>
+        <td>7</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/53">#53</a></td>
+        <td>3 hours</td>
+        <td>5 hours</td>
+        <td>Added basic security configuration that uses HttpBasic protocol.</td>
+    </tr>
+        <tr>
         <td></td>
         <td></td>
         <td></td>

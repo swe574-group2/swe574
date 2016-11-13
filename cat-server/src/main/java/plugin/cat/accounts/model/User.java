@@ -8,9 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import plugin.cat.accounts.util.UserType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -33,7 +31,10 @@ public class User implements UserDetails {
     private String nickname;
 
     @NotBlank
-    private UserType userType;
+    private String userType;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private UserToken token;
 
     @JsonIgnore
     private String password;
