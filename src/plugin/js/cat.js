@@ -1,6 +1,6 @@
 var cat = (function () {
     var serverUrl="http://localhost:1111";
-    
+    var authServerUrl="http://localhost:8080";
     return {
 
         getAnnotationCount: function () {
@@ -78,11 +78,16 @@ var cat = (function () {
             })
 
         },
-        post: function (url, data, success) {
+        post: function (url, data, success,isAuthRequest) {
+            var server=serverUrl;
+            if(isAuthRequest && isAuthRequest===true){
+                server=authServerUrl;
+            }
+
            // console.log(JSON.stringify(data));
             $.ajax({
                 type: "POST",
-                url: serverUrl+url,
+                url: server+url,
                 data: JSON.stringify(data),
                 crossDomain: true,
                 cache:false,
@@ -136,6 +141,10 @@ function handleMessage(message) {
         console.log(message.data);
         cat.saveAnnotation(message.data);
 
+    } else if (message.action == "saveImageAnnotation") {
+        console.log("adkhdh");
+        console.log(message.data);
+        cat.saveAnnotation(message.data);
     }
 
 

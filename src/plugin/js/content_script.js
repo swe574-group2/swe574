@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+originalHtml=$("body").html();
+
+})
+var originalHtml="";
+function init(){
     console.log("cat is started...")
     $('img').imgAreaSelect({
         handles: true,
@@ -7,17 +13,18 @@ $(document).ready(function () {
         },
         onSelectChange: preview
     });
-
-})
+}
 
 var isCatActive=false;
 
 function preview(img, selection) {
+    common.imageAnnotationForm(img,selection);
+
     var scaleX = 100 / (selection.width || 1);
     var scaleY = 100 / (selection.height || 1);
-if($("#cat-annotations-container .panel-body #cat-image-preview").length==0) {
+/*if($("#cat-annotations-container .panel-body #cat-image-preview").length==0) {
     $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview' style='float: left; overflow-y:auto;   position: relative; overflow: hidden; width: 100px; height: 100px;' />")
-}
+}*/
     $("#cat-image-preview").html("<img src='"+img.src+"' />");
 
 
@@ -30,6 +37,14 @@ var imgWidth=$(img).width();
         marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
         marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
     });
+}
+function hightlightAnnotation (i){
+    var selector="#cat-annotation-"+i;
+    $(selector).css({"border":"1px solid red"});
+}
+function unhightlightAnnotation (i){
+    var selector="#cat-annotation-"+i;
+    $(selector).css({"border":"none"});
 }
 
 function addAnnotationsContainer() {
@@ -73,18 +88,82 @@ function addAnnotations(data){
     $(data).each(function(i,e){
         //text selecton
        if(e.target.selector.type=="TextPositionSelector"){
+           html+="<div id='cat-annotation-"+i+"'>"
            html+="<div class='col-sm-12'>Type : TextSelection </div>";
            html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
-           html+="<div class='col-sm-12'>Annotation : "+e.body[0].items[0].value+" </div>";
-           html+="<div class='col-sm-12'>Purpose : "+e.body[0].items[0].purpose+" </div>";
-           html+="<div class='col-sm-12'><hr /></div>"
+           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
+           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'><hr /></div></div>"
+
        }
-        //image
+       //image
+       else if(e.target.selector.type==="FragmentSelector"){
+           html+="<div id='cat-annotation-"+i+"'>"
+           html+="<div class='col-sm-12'>Type : FragmentSelector </div>";
+           html+="<div class='col-sm-12'>Selected Image : "+e.target.source+" </div>";
+           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
+           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'><hr /></div></div>"
+       }
+
     });
     html+="</div>"; 
     $container.html(html);
+    $(data).each(function(i,e){
+        //text selection
+        if(e.target.selector.type=="TextPositionSelector"){
+
+            highlightText(e.target.selector,i);
+        }
+        //image
+        else if(e.target.selector.type==="FragmentSelector"){
+            highlightImage(e.target.source,e.target.selector,i);
+        }
+
+    });
+    $("span.highlighted").on("mouseenter",function(){
+        var i=$(this).data("index");
+        var selector="#cat-annotation-"+i;
+        $(selector).css({"color":"red"});
+    });
+    $("span.highlighted").on("mouseleave",function(){
+        var i=$(this).data("index");
+        var selector="#cat-annotation-"+i;
+        $(selector).css({"color":"inherit"});
+    });
 
 }
+
+//** hightlighting **//
+function highlightText(selector,i){
+    var found=false;
+    $(".highlighted").each(function(i,e){
+       if($(e).text()==selector.value) {
+          found=true;
+       }
+    });
+    if(found==true) return;
+    console.log("highlighting text:",selector);
+    //$("body").html(originalHtml);
+    $("body").html($("body").html().replace(selector.value,"<span data-index='"+i+"' style='border:1px solid red;' class='highlighted'>"+selector.value+"</span>"))
+    init();
+
+}
+function highlightImage(src,selector,i){
+    console.log("highlighting image:",src,selector);
+   $("img","body").each(function (i,e) {
+        console.log($(e).attr("src"));
+        if(src.endsWith($(e).attr("src")))  {
+            var arr= selector.value.replace("xywh=","").split(",");
+            console.log(arr);
+            $(e).imgAreaSelect( {x1:parseInt(arr[0]),  y1:parseInt(arr[1]), x2: parseInt(arr[0])+parseInt(arr[2]),  y2:parseInt(arr[1])+parseInt(arr[3])});
+        }
+    });
+    //init();
+
+}
+
+
 /** click event **/
 
 window.addEventListener("click", notifyExtension);
@@ -103,6 +182,10 @@ function notifyExtension(e) {
     else if(e.target.id=='btnSaveTextAnnotation'){
         console.log("saving text-annotation");
         chrome.runtime.sendMessage({"action":"saveTextAnnotation",data:common.getTextAnnotation()});
+    }
+    else if(e.target.id=='btnSaveImageAnnotation'){
+        console.log("saving image annotation");
+        chrome.runtime.sendMessage({"action":"saveImageAnnotation",data:common.getImageAnnotation()});
     }
 
 }
