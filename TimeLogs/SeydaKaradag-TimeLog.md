@@ -48,4 +48,9 @@ WEEK 5 (18 October - 23 October)
 
 •	Since the databases of the project were assigned me and Arda, when he was drawing sequence diagram, I made research about Pouch.db and Couch.db. We are trying to find the best and useful technologies for the project.
 
+Week 7 (01 Nov - 08 Nov)
+•	We met with Taner at the universty's library and reviewed all the codes that we wrote for the front end.
+•	During last two weeks I tried to solve the bugs, today finally I have started to registration & validation
+•	I created a registration page and linked it to the main page.
+•	I created validation rules and apply them to registration page through a script.
 
