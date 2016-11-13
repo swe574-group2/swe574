@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CAT PLUGIN Registration Form </title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="css/style.css"/>
+    <!-- Include JS File Here -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+            function myLogin()
+            {
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var cpassword = $("#cpassword").val();
+                if (name == '' || email == '' || password == '' || cpassword == '')
+                { alert("Please fill all fields...!!!!!!");}
+                else if ((password.length) < 6)
+                {alert("Password should atleast 6 character in length...!!!!!!");}
+                else if (!(password).match(cpassword))
+                {alert("Your passwords don't match. Try again?");}
+                else {alert("You have Successfully Registered.....");}
+            }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="main">
+        <form class="form" method="post" action="#">
+            <h2>Register to CAT Plugin</h2>
+            <div class="form-group"><label>Name :</label></div>
+            <div class="form-group"><input type="text" name="dname" id="name"></div>
+            <div class="form-group"><label>Email :</label></div>
+            <div class="form-group"><input type="text" name="demail" id="email"></div>
+            <div class="form-group"><label>Password :</label></div>
+            <div class="form-group"><input type="password" name="password" id="password"></div>
+            <div class="form-group"><label>Confirm Password :</label></div>
+            <div class="form-group"><input type="password" name="cpassword" id="cpassword"></div>
+            <div class="form-group"><input type="button" onclick="myLogin();" name="register" id="register" value="Register"></div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
