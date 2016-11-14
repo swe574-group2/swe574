@@ -157,7 +157,7 @@ var common = (function () {
                             "value": $("#annotation-body").val(),
                             "purpose": $("#annotation-motivation").find('option:selected').val(),
                             "source":{
-                                "format":"text",
+                                "format":$("annotation-source-format").val(),
                                 "language":"en",
                                 "creator": {
                                     "name": $("#annotation-creator-name").val(),

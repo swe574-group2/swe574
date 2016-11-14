@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-originalHtml=$("body").html();
+    originalHtml=$("body").html();
+    init();
 
 })
 var originalHtml="";
