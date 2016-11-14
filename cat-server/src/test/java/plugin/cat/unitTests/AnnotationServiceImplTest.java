@@ -1,13 +1,14 @@
 package plugin.cat.unitTests;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import plugin.cat.annotation.model.Annotation;
 import plugin.cat.annotation.repository.AnnotationRepository;
+import plugin.cat.annotation.request.AnnotationsByTextSelectorRequest;
 import plugin.cat.annotation.service.impl.AnnotationServiceImpl;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Created by Okan Men on 12.11.2016.
+ * Created by Okan Menevseoglu on 12.11.2016.
  * This class has the unit tests for the annotation service operations.
  */
 public class AnnotationServiceImplTest {
@@ -24,8 +25,15 @@ public class AnnotationServiceImplTest {
     @Mock
     AnnotationRepository annotationRepository;
 
-    @Mock
+    @Spy
     private ArrayList<Annotation> annotationList;
+
+    private long l;
+
+    private int i;
+
+    @Mock
+    private AnnotationsByTextSelectorRequest annotationsByTextSelectorRequest;
 
     @Mock
     private Annotation annotation;
@@ -54,8 +62,8 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void getAnnotations_shouldReturnWhatTheAnnotationRepositoryReturns() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(annotationRepository.findAll()).thenReturn(annotationList);
+        assertEquals(annotationService.getAnnotations(), annotationList);
     }
 
     /**
@@ -64,8 +72,8 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void getAnnotationsById_shouldInvokeFindAllByIdMethodOfTheAnnotationRepository() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        annotationService.getAnnotationsById(anyString());
+        verify(annotationRepository, times(1)).findAllById(anyString());
     }
 
     /**
@@ -74,8 +82,8 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void getAnnotationsById_shouldReturnWhatTheAnnotationRepositoryReturns() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(annotationRepository.findAllById(anyString())).thenReturn(annotationList);
+        assertEquals(annotationService.getAnnotationsById(anyString()), annotationList);
     }
 
     /**
@@ -84,8 +92,8 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void saveAnnotation_shouldInvokeSaveMethodOfTheAnnotationRepository() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        annotationService.saveAnnotation(annotation);
+        verify(annotationRepository, times(1)).save(annotation);
     }
 
     /**
@@ -94,8 +102,8 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void countAnnotationsById_shouldInvokeCountByIdMethodOfTheAnnotationRepository() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        annotationService.countAnnotationsById(anyString());
+        verify(annotationRepository, times(1)).countById(anyString());
     }
 
     /**
@@ -104,37 +112,28 @@ public class AnnotationServiceImplTest {
      */
     @Test
     public void countAnnotationsById_shouldReturnWhatTheAnnotationRepositoryReturns() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(annotationRepository.countById(anyString())).thenReturn(l);
+        assertEquals(annotationService.countAnnotationsById(anyString()), l);
     }
 
     /**
      * @verifies invoke countByTarget method of the annotation repository
-     * @see AnnotationServiceImpl#annotationCountForTarget(String)
+     * @see AnnotationServiceImpl#countAnnotationByTarget(String)
      */
     @Test
-    public void annotationCountForTarget_shouldInvokeCountByTargetMethodOfTheAnnotationRepository() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+    public void countAnnotationByTarget_shouldInvokeCountByTargetMethodOfTheAnnotationRepository() throws Exception {
+        annotationService.countAnnotationByTarget(anyString());
+        verify(annotationRepository, times(1)).countByTarget(anyString());
     }
 
     /**
      * @verifies return what the annotation repository returns
-     * @see AnnotationServiceImpl#annotationCountForTarget(String)
+     * @see AnnotationServiceImpl#countAnnotationByTarget(String)
      */
     @Test
     public void annotationCountForTarget_shouldReturnWhatTheAnnotationRepositoryReturns() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(annotationRepository.countByTarget(anyString())).thenReturn(l);
+        assertEquals(annotationService.countAnnotationByTarget(anyString()), l);
     }
 
-    /**
-     * @verifies invoke findAllById method of the annotation repository
-     * @see AnnotationServiceImpl#getAnnotationsByTextSelection(String, int, int)
-     */
-    @Test
-    public void getAnnotationsByTextSelection_shouldInvokeFindAllByIdMethodOfTheAnnotationRepository() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
-    }
 }

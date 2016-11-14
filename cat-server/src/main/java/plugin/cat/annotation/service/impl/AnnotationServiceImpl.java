@@ -71,7 +71,7 @@ public class AnnotationServiceImpl implements IAnnotationService {
      * @should return what the annotation repository returns
      */
     @Override
-    public long annotationCountForTarget(String target) {
+    public long countAnnotationByTarget (String target) {
         return annotationRepository.countByTarget(target);
     }
 
@@ -80,7 +80,7 @@ public class AnnotationServiceImpl implements IAnnotationService {
      * @param start of annotation that will be listed
      * @param end   of annotation that will be listed
      * @return Iterable Annotation object by id, start and end parameters
-     * @should invoke findAllById method of the annotation repository
+     * @should return iterable Annotation object
      */
     @Override
     public Iterable<Annotation> getAnnotationsByTextSelection(String id, int start, int end) {

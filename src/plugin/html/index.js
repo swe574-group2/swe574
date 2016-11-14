@@ -15,6 +15,9 @@ function  renderAnnotationCount(){
     cat.getAnnotationCount();
 }
 
+
+
+
 var plugin=(function () {
     return {
         alert:function () {
@@ -25,3 +28,4 @@ var plugin=(function () {
         }
     }
 })();
+

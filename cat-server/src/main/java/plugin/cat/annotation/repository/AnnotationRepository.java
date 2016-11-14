@@ -12,6 +12,8 @@ import plugin.cat.annotation.model.Annotation;
 public interface AnnotationRepository extends PagingAndSortingRepository<Annotation, Long> {
 
     long countById(String id);
+
     long countByTarget(String target);
+
     Iterable<Annotation> findAllById(String id);
 }

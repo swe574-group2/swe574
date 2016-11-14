@@ -1,8 +1,8 @@
-package plugin.cat.accounts.repository;
+package plugin.cat.authentication.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import plugin.cat.accounts.model.User;
+import plugin.cat.authentication.model.User;
 
 /**
  * Created by okanm on 7.11.2016.

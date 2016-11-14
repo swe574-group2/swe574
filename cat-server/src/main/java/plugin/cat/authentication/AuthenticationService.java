@@ -1,21 +1,20 @@
-package plugin.cat.accounts;
+package plugin.cat.authentication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import plugin.cat.annotation.AnnotationService;
 
 /**
  * Created by tolgacaner on 05/11/16.
  */
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableEurekaClient
 @EnableWebSecurity
-public class AccountsService {
+public class AuthenticationService {
 
     public static void main(String[] args) {
-        System.setProperty("spring.config.name", "accounts-service");
-        SpringApplication.run(AccountsService.class, args);
+        System.setProperty("spring.config.name", "authentication-service");
+        SpringApplication.run(AuthenticationService.class, args);
     }
 }

@@ -25,3 +25,6 @@
 ## WEEK 7 (31 October - 07 November)
 * 6 October. Minor fixes on the implementation caused by the changes in the annotation modal. (0.5 hours)
 
+## WEEK 8 (07 October - 14 November)
+* 12 October. Did research about and worked on token-based authentication system. (8 hours)
+* 13 October. Authentication work in progress. (3 hours)
