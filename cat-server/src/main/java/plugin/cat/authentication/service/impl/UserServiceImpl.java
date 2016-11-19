@@ -3,6 +3,7 @@ package plugin.cat.authentication.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import plugin.cat.authentication.model.User;
 import plugin.cat.authentication.repository.IUserRepository;
@@ -17,9 +18,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserRepository userRepository;
 
-/*  Will be enabled after security
     @Autowired
-    private PasswordEncoder passwordEncoder;*/
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Iterable<User> getUsers() {
@@ -38,6 +38,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

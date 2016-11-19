@@ -1,7 +1,9 @@
 package plugin.cat.authentication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,10 +31,13 @@ public class User implements UserDetails {
     @NotBlank
     private String nickname;
 
-    @NotBlank
-    private String userType;
+    @Email
+    private String email;
 
-    @JsonIgnore
+    @Column(nullable = false)
+    private UserType userType;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private boolean isEnabled;
