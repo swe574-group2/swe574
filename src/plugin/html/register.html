@@ -4,6 +4,7 @@
     <title>CAT PLUGIN Registration Form </title>
     <meta name="robots" content="noindex, nofollow">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
     <!-- Include JS File Here -->
@@ -108,49 +109,51 @@
             <div class="form-group"><input type="button" onclick="myLogin();" name="register" id="register" value="Register"></div>
         </form>
         -->
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Register to CAT Plugin
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <form class="form" method="post" action="#" id="register-form">
-                            <div class="form-group">
-                                <label class="control-label">Username</label>
-                                <input  class="form-control" type="text" id="userName" name="userName" placeholder="">
-                                <span class="help-block" id="error"></span>
-                            </div>
-                            <div class="form-group">
-                                <!-- E-mail -->
-                                <label class="control-label" for="email">E-mail</label>
-                                <div class="controls">
-                                    <input  class="form-control"  type="text" id="email" name="email" placeholder="">
+    <div id="main-popup">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Register to CAT Plugin
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <form class="form" method="post" action="#" id="register-form">
+                                <div class="form-group">
+                                    <label class="control-label">Username</label>
+                                    <input  class="form-control" type="text" id="userName" name="userName" placeholder="">
                                     <span class="help-block" id="error"></span>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <!-- Password-->
-                                <label class="control-label" for="password">Password</label>
-                                <div class="controls">
-                                    <input  class="form-control"  type="password" id="password" name="password" placeholder="">
-                                    <span class="help-block" id="error"></span>
+                                <div class="form-group">
+                                    <!-- E-mail -->
+                                    <label class="control-label" for="email">E-mail</label>
+                                    <div class="controls">
+                                        <input  class="form-control"  type="text" id="email" name="email" placeholder="">
+                                        <span class="help-block" id="error"></span>
+                                    </div>
                                 </div>
+                                <div class="form-group">
+                                    <!-- Password-->
+                                    <label class="control-label" for="password">Password</label>
+                                    <div class="controls">
+                                        <input  class="form-control"  type="password" id="password" name="password" placeholder="">
+                                        <span class="help-block" id="error"></span>
+                                    </div>
 
-                            </div>
-                            <div class="form-group">
-                                <!-- Password -->
-                                <label class="control-label"  for="password_confirm">Password (Confirm)</label>
-                                <div class="controls">
-                                    <input  class="form-control"  type="password" id="cpassword" name="cpassword" placeholder="">
-                                    <span class="help-block" id="error"></span>
                                 </div>
-                            </div>
-                            <div>
-                                <a href="register.html"><button class="btn btn-sm btn-success pull-right" id="btnRegister">Register</button></a>
-                            </div>
-                        </form>
+                                <div class="form-group">
+                                    <!-- Password -->
+                                    <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+                                    <div class="controls">
+                                        <input  class="form-control"  type="password" id="cpassword" name="cpassword" placeholder="">
+                                        <span class="help-block" id="error"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="register.html"><button class="btn btn-sm btn-success pull-right" id="btnRegister">Register</button></a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
