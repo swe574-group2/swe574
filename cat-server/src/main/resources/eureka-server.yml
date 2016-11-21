@@ -8,3 +8,10 @@ eureka:
 
 server:
   port: 1111   # HTTP (Tomcat) port
+
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: 123456

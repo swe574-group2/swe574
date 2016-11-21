@@ -1,6 +1,10 @@
 package plugin.cat.annotation.controller;
 
+import com.netflix.discovery.DiscoveryClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import plugin.cat.annotation.model.Annotation;
@@ -8,6 +12,8 @@ import plugin.cat.annotation.request.AnnotationIdRequest;
 import plugin.cat.annotation.request.AnnotationTargetRequestBody;
 import plugin.cat.annotation.request.AnnotationsByTextSelectorRequest;
 import plugin.cat.annotation.service.IAnnotationService;
+
+import java.util.List;
 
 /**
  * Created by okanm on 17.10.2016.

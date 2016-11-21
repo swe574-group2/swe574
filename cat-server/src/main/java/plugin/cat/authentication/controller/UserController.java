@@ -20,6 +20,11 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @RequestMapping(value = {"/testing"}, method = RequestMethod.GET)
+    public String getTesting() {
+        return "TESTING";
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public Iterable<User> getUsers() {

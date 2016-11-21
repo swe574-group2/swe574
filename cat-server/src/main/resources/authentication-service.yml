@@ -10,8 +10,13 @@ spring:
 # Discovery Server Access
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:1111/eureka/
+      defaultZone: http://admin:123456@localhost:1111/eureka/
+    instance:
+      preferIpAddress: true
+      instanceId: authentication-service-instance
 
 # HTTP Server
 server:

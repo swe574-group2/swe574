@@ -2,12 +2,14 @@ package plugin.cat.authentication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * Created by tolgacaner on 05/11/16.
  */
 @SpringBootApplication
+@EnableDiscoveryClient
 @EnableEurekaClient
 public class AuthenticationService {
 
