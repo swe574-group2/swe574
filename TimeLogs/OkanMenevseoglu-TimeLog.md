@@ -171,6 +171,13 @@
         <td>Added unit tests for the annotation service layer.</td>
     </tr>
     <tr>
+        <td>9</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/53">#53</a></td>
+        <td>3 hours</td>
+        <td>4 hours</td>
+        <td>Completed the security of the system on the server side of the project.</td>
+    </tr>
+        <tr>
         <td></td>
         <td></td>
         <td></td>
