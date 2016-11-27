@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import plugin.cat.annotation.model.Annotation;
 import plugin.cat.annotation.request.AnnotationIdRequest;
@@ -18,6 +18,8 @@ import java.util.List;
 /**
  * Created by okanm on 17.10.2016.
  * Controller class that handles request and response methods of the annotation operations.
+ *
+ * Note: When making changes to paths of the methods of this class, make sure their counterparts in the authentication server work too
  */
 @RestController
 @RequestMapping(value = "/annotation")
@@ -30,6 +32,23 @@ public class AnnotationController {
     public Iterable<Annotation> getAnnotations() {
         return annotationService.getAnnotations();
     }
+
+    // *** Please do not delete this for some time. ***
+
+//    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+//    public ResponseEntity<Iterable<Annotation>> getAnnotations(RequestEntity<String> requestEntity) {
+//        System.out.println("request body : " + requestEntity.getBody());
+//        HttpHeaders headers = requestEntity.getHeaders();
+//        System.out.println("request headers : " + headers);
+//        HttpMethod method = requestEntity.getMethod();
+//        System.out.println("request method : " + method);
+//        System.out.println("request url: " + requestEntity.getUrl());
+//
+//        ResponseEntity<Iterable<Annotation>> responseEntity = new ResponseEntity<Iterable<Annotation>>(annotationService.getAnnotations(),
+//                HttpStatus.OK);
+//
+//        return responseEntity;
+//    }
 
     @RequestMapping(value = "/listById", method = RequestMethod.POST)
     public Iterable<Annotation> getAnnotationsById(@RequestBody AnnotationIdRequest annotationIdRequest) {
