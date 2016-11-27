@@ -28,3 +28,9 @@
 ## WEEK 8 (07 October - 14 November)
 * 12 October. Did research about and worked on token-based authentication system. (8 hours)
 * 13 October. Authentication work in progress. (3 hours)
+
+## WEEK 9 (14 October - 21 November)
+* 19 October. Did research routing requests from authentication server to annotation server. (4 hours)
+
+## WEEK 10 (21 October - 28 November)
+* 19 October. Added routing for getAnnotations method (4 hours)
