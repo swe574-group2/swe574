@@ -4,6 +4,10 @@ $(document).ready(function () {
     init();
 
 })
+
+var groups=[];
+
+
 var originalHtml="";
 function init(){
     console.log("cat is started...")
@@ -54,8 +58,10 @@ function addAnnotationsContainer() {
         $("#cat-annotations-container").removeClass("hide");
         return;
     }
-    $("body").append("<div id='cat-annotations-container'/>")
+
+    $("body").append("<div id='cat-annotations-container'></div>");
     var $catContainer = $("#cat-annotations-container");
+
     $catContainer.css({
         "position": "fixed",
         "width": "300px",
@@ -68,6 +74,7 @@ function addAnnotationsContainer() {
     });
     $catContainer.html("<div class='panel panel-default' ><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
         "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
+        "<button id='clearHighlights' class='btn btn-sm btn-danger'>Clear Highlights</button></div>" +
         " <div id='cat-info' style='font-size:12px;width:200px' class='alert alert-warning'>W3 Web Annotator</div><div class='clearfix'></div><hr/>" +
         "<div id='cat-container-body' style='height: 300px; overflow-y: auto'></div>"+
         "</div></div>")
@@ -83,6 +90,7 @@ function removeAnnotationsContainer() {
     isCatActive=false;
 }
 function addAnnotations(data){
+    gorups=[];
     if(data==null || data==undefined) return;
     var $container=$("#cat-container-body");
     var html="<div class='row'>";
@@ -108,13 +116,61 @@ function addAnnotations(data){
        }
 
     });
-    html+="</div>"; 
-    $container.html(html);
+    html+="</div>";
+
+    var mainDiv = document.body;
+    // create the treewalker which will accept all textNodes
+    var treeWalker = document.createTreeWalker(mainDiv,NodeFilter.SHOW_TEXT,null,false);
+
+    var textNodeList = [];
+    while(treeWalker.nextNode()) {
+        if(treeWalker.currentNode.nodeValue.length>0)
+        textNodeList.push(treeWalker.currentNode)
+    };
+
+    var index=0;
+    var groupId=0;
+    var tempNodes=[];
+    $(textNodeList).each(function(i,e){
+        tempNodes.push(e);
+    })
+
+
+    while (groups.length) { groups.pop(); }
     $(data).each(function(i,e){
         //text selection
         if(e.target.selector.type=="TextPositionSelector"){
+            var added=false;
+            if(index==0){
+                groups.push({id:groupId,annotations:[e]});
+                added=true;
+            }
+            else{
+                var a=false;
+                $(groups).each(function(i2,e2){
+                    if(a==false) {
+                        var ann = e2.annotations[0];
+                        if (ann.target.selector.value == e.target.selector.value
+                            && ann.target.selector.start == e.target.selector.start
+                            && ann.target.selector.end == e.target.selector.end
+                        ) {
+                            a = true;
+                            groups[i2].annotations.push(e);
+                            added = true;
+                            //return true;
+                        }
+                    }
+                });
 
-            highlightText(e.target.selector,i);
+            }
+            if(added ==false){
+                groupId++;
+                groups.push({id:groupId,annotations:[e]});
+            }
+
+            index++;
+            // highlightText(e.target.selector,i) ;
+
         }
         //image
         else if(e.target.selector.type==="FragmentSelector"){
@@ -122,31 +178,77 @@ function addAnnotations(data){
         }
 
     });
-    $("span.highlighted").on("mouseenter",function(){
-        var i=$(this).data("index");
-        var selector="#cat-annotation-"+i;
-        $(selector).css({"color":"red"});
+    $container.html(html);
+    console.log(groups);
+    $(groups).each(function (i,e){
+        var ann=e.annotations[0];
+       // highlightText(e)
+        var found=false;
+        $(".highlighted").each(function(i3,e3){
+
+
+            if($(e3).text().startsWith(ann.target.selector.value)) {
+                found=true;
+            }
+        });
+        if(found==false) {
+            $(tempNodes).each(function (i2, e2) {
+                try {
+                    if (tempNodes[i2].nodeValue.substr(ann.target.selector.start, ann.target.selector.value.length) === ann.target.selector.value) {
+                        var html = e2.nodeValue.replace(ann.target.selector.value, "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>")
+                        $("body").html($("body").html().replace(ann.target.selector.value, html));
+                    }
+                }
+                catch (e) {
+
+                }
+            });
+        }
     });
-    $("span.highlighted").on("mouseleave",function(){
-        var i=$(this).data("index");
-        var selector="#cat-annotation-"+i;
-        $(selector).css({"color":"inherit"});
+
+
+
+    $("span.highlighted").on("click",function(){
+        var index=parseInt($(this).data("index"));
+        $(groups).each(function(i2,e2){
+
+            if(i2==index){
+                var html="<div class='row'>";
+                $(e2.annotations).each(function(i,e) {
+                    html += "<div id='cat-annotation-" + i + "'>"
+                    html += "<div class='col-sm-12'>Type : TextSelection </div>";
+                    html += "<div class='col-sm-12'>Selected Text : " + e.target.selector.value + " </div>";
+                    html += "<div class='col-sm-12'>Annotation : " + e.body.value + " </div>";
+                    html += "<div class='col-sm-12'>Purpose : " + e.body.purpose + " </div>";
+                    html += "<div class='col-sm-12'><hr /></div></div>"
+                });
+                html+="</div>";
+                var $container=$("#cat-container-body");
+                $container.html(html);
+            }
+        });
+
+
     });
+
 
 }
 
 //** hightlighting **//
-function highlightText(selector,i){
+function highlightText(ann){
     var found=false;
+    var selector=ann.annotations[0].target.selector;
+    var k=ann.id;
     $(".highlighted").each(function(i,e){
+
+
        if($(e).text()==selector.value) {
           found=true;
        }
     });
     if(found==true) return;
-    console.log("highlighting text:",selector);
     //$("body").html(originalHtml);
-    $("body").html($("body").html().replace(selector.value,"<span data-index='"+i+"' style='border:1px solid red;' class='highlighted'>"+selector.value+"</span>"))
+    $("body").html($("body").html().replace(selector.value,"<span data-index='"+k+"' style='border:1px solid red;' class='highlighted'>"+selector.value+ " <span class='badge'>" + ann.annotations.length + "</span></span>"))
     init();
 
 }
@@ -180,6 +282,16 @@ function notifyExtension(e) {
         $("#cat-container-body").html('');
         return;
     }
+    else if(e.target.id=="clearHighlights"){
+        /*$(".highlighted").each(function (i,e) {
+            var index=parseInt($(e).data("index"));
+            $(e).replaceWith(groups[index].annotations[0].target.selector.value);
+        });*/
+        $("body").html(originalHtml);
+        addAnnotationsContainer();
+        return;
+    }
+
     else if(e.target.id=='btnSaveTextAnnotation'){
         console.log("saving text-annotation");
         chrome.runtime.sendMessage({"action":"saveTextAnnotation",data:common.getTextAnnotation()});
@@ -201,8 +313,9 @@ function selectHandler(e) {
     console.log($(e.target).parents("#cat-annotations-container").length)
     if(isCatActive==false && $(e.target).parents("#cat-annotations-container").length===1) return;
     var slct = window.getSelection();
-
+    console.log(groups);
     if (slct.anchorOffset != slct.focusOffset) {
+
         console.log("text selected: ", getSelectionText())
         if($(e.target).parents("#cat-annotations-container").length===0)
          common.textAnnotationForm(slct);
