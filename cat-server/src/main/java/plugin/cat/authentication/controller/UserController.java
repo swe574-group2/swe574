@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import plugin.cat.annotation.model.Annotation;
+import plugin.cat.annotation.util.AnnotationRoutingUtil;
 import plugin.cat.authentication.model.User;
 import plugin.cat.authentication.service.IUserService;
 
@@ -78,5 +80,17 @@ public class UserController {
     @RequestMapping(value = "/test3", method = RequestMethod.GET)
     public String test3() {
         return "success";
+    }
+
+    // These methods call their counterparts in the Annotation server
+    @RequestMapping(value = {"", "/annotation"}, method = RequestMethod.GET)
+    public String getAnnotations() {
+        return AnnotationRoutingUtil.makeHttpGet("http://localhost:8080/annotation/");
+    }
+
+    @ResponseStatus(value = HttpStatus.OK, reason = "Annotation is added successfully.")
+    @RequestMapping(value = "/annotation", method = RequestMethod.POST)
+    public void addAnnotation(@RequestBody Annotation annotation) {
+        AnnotationRoutingUtil.createAnnotation(annotation);
     }
 }
