@@ -1,6 +1,7 @@
 var cat = (function () {
     var serverUrl="http://localhost:8080";
     var authServerUrl="http://localhost:8081";
+    var userName="";
     return {
 
         getAnnotationCount: function () {
@@ -36,23 +37,41 @@ var cat = (function () {
         login: function () {
 
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                console.log("cat.js Login");
-                console.log("current tab url:"+tabs[0].url);
                 user = {};
                 user.nickname = $("#username").val();
                 user.password = $("#password").val();
-                alert("nickname " + user.nickname +  " password " + user.password) ;
 
-/*
-                cat.post("/user/authenticate", {"user": user}, function (json) {
-                    chrome.tabs.sendMessage(tabs[0].id, {
-                        "sender": "cat",
-                        "action": "login",
-                        "data":json
-                    }, function (response) {
-                    });
+                var authUrl = authServerUrl+"/users/user";
+                console.log(authUrl);
+                var nickpass = user.nickname+":"+user.password;
+                console.log("nickpass: " + nickpass);
+                console.log("btoa-nickpass: " + btoa(nickpass));
+                $.ajax({
+                    type: "GET",
+                    cache:false,
+                    url: authUrl,
+                    crossDomain: true,
+                    async: false,
+                    headers: {
+                        /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
+                        "Authorization": "Basic " + btoa(nickpass)
+                    },
+                    success: function (json) {
+                        /*if (success) {*/
+                            console.log(json);
+                            userName=json.principal.name;
+                            console.log(userName);
+                            window.location="manage.html";
+                            success(json);
+                        /*}*/
+                    },
+                    error: function (responseData, textStatus, errorThrown) {
+                        console.log(responseData, textStatus, errorThrown)
+                        window.location = 'http://github.com';
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
                 });
-*/
             });
 
 

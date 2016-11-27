@@ -3,6 +3,9 @@ document.addEventListener("click", function(e) {
     if (e.target.id == "btnShowAnnotations") {
         cat.showAnnotations();
     }
+    if (e.target.id == "btnLogin") {
+        cat.login();
+    }
     if (e.target.id == "btnSaveTextAnnotation") {
 
     }
