@@ -1,6 +1,6 @@
 var cat = (function () {
-    var serverUrl="http://localhost:1111";
-    var authServerUrl="http://localhost:8080";
+    var serverUrl="http://localhost:8080";
+    var authServerUrl="http://localhost:8081";
     return {
 
         getAnnotationCount: function () {
