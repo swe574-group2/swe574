@@ -63,6 +63,7 @@ var cat = (function () {
                 },
                 complete:function (json) {
                     console.log("post completed",json)
+                    window.location="index.html";
                 },
                 //dataType: "json",
                 contentType: "application/json; charset=utf-8"
