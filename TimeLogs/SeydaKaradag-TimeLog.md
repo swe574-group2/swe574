@@ -58,7 +58,7 @@ Week 7 (01 Nov - 08 Nov)
 
 •	I created validation rules and apply them to registration page through a script.
 
-Week 10 (21 Nov - 28 Nov)
+Week 9 (21 Nov - 28 Nov)
 
 •	We met with Taner and Senol at the universty's study room.
 •	Me and Senol worked on registration and login, Taner worked and annotation grouping.
