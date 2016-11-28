@@ -33,6 +33,43 @@ var cat = (function () {
                     });
 
         },
+        register: function () {
+            var nickname = $("#nickName").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var registerInputData =
+            {
+                "name":nickname,
+                "nickname":nickname,
+                "userType":"ROLE_MEMBER",
+                "password":password
+            };
+
+            $.ajax({
+                type: "POST",
+                url: authServerUrl+"/users/register",
+                data: JSON.stringify(registerInputData),
+                crossDomain: true,
+                cache:false,
+                success: function (json) {
+                    console.log("register ------ success",json)
+                    if (success)
+                        success(json);
+                },
+                error: function (json) {
+                    console.log(json)
+                    //$("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
+
+                },
+                complete:function (json) {
+                    console.log("post completed",json)
+                },
+                //dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+
+            /*alert("cat register: " + username +" " + email +" " + password );*/
+        },
 //ŞK01 B
         login: function () {
 

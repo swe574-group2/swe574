@@ -6,7 +6,7 @@ $('document').ready(function()
     // name validation
     var nameregex = /^[a-zA-Z ]+$/;
 
-    $.validator.addMethod("validuserName", function( value, element ) {
+    $.validator.addMethod("validnickName", function( value, element ) {
         return this.optional( element ) || nameregex.test( value );
     });
 
@@ -21,9 +21,9 @@ $('document').ready(function()
 
         rules:
         {
-            userName: {
+            nickName: {
                 required: true,
-                validuserName: true,
+                validnickName: true,
                 minlength: 4
             },
             email: {
@@ -42,9 +42,9 @@ $('document').ready(function()
         },
         messages:
         {
-            userName: {
+            nickName: {
                 required: "Please Enter User Name",
-                validuserName: "Name must contain only alphabets and space",
+                validnickName: "Name must contain only alphabets and space",
                 minlength: "Your Name is Too Short"
             },
             email: {
@@ -76,4 +76,12 @@ $('document').ready(function()
             alert('ok');
         }
     });
+});
+
+document.addEventListener("click", function(e) {
+    if (e.target.id == "btnRegister") {
+        /*alert("btnRegister clicked");*/
+        cat.register();
+    }
+
 });
