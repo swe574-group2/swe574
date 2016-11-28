@@ -44,36 +44,12 @@ var cat = (function () {
                 "userType":"ROLE_MEMBER",
                 "password":password
             };
-
-            $.ajax({
-                type: "POST",
-                url: authServerUrl+"/users/register",
-                data: JSON.stringify(registerInputData),
-                crossDomain: true,
-                cache:false,
-                success: function (json) {
-                    console.log("register ------ success",json)
-                    if (success)
-                        success(json);
-                },
-                error: function (json) {
-                    console.log(json)
-                    //$("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
-
-                },
-                complete:function (json) {
-                    console.log("post completed",json)
-                    window.location="index.html";
-                },
-                //dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
-
-            /*alert("cat register: " + username +" " + email +" " + password );*/
+            cat.post("/users/register", registerInputData, function (json) {
+                        console.log("registration succeeded");
+            },true);
         },
 //ŞK01 B
         login: function () {
-
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 user = {};
                 user.nickname = $("#username").val();
@@ -84,37 +60,20 @@ var cat = (function () {
                 var nickpass = user.nickname+":"+user.password;
                 console.log("nickpass: " + nickpass);
                 console.log("btoa-nickpass: " + btoa(nickpass));
-                $.ajax({
-                    type: "GET",
-                    cache:false,
-                    url: authUrl,
-                    crossDomain: true,
-                    async: false,
-                    headers: {
-                        /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
-                        "Authorization": "Basic " + btoa(nickpass)
-                    },
-                    success: function (json) {
-                        /*if (success) {*/
-                            console.log(json);
-                            userName=json.principal.name;
-                            console.log(userName);
-                            window.location="manage.html";
-                            success(json);
-                        /*}*/
-                    },
-                    error: function (responseData, textStatus, errorThrown) {
-                        console.log(responseData, textStatus, errorThrown)
+                cat.get("/users/user", null, function (json) {
+                    console.log(json);
+                    userName=json.principal.name;
+                    console.log(userName);
+                    window.location="manage.html";
+                    success(json);
+                },function (responseData, textStatus, errorThrown) {
                         /*window.location = 'http://github.com';*/
                         $("#lblloginMessage").text("check your username/password");
                         $("#loginInfoMessage").removeClass("hide");
-                    },
-                    dataType: "json",
-                    contentType: "application/json"
-                });
-            });
-
-
+                },false,{
+                        /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
+                        "Authorization": "Basic " + btoa(nickpass)
+                },true);
         },
 //ŞK01 E
         addTextSelectionForm: function (selection) {
@@ -167,18 +126,30 @@ var cat = (function () {
                 contentType: "application/json; charset=utf-8"
             });
         },
-        get: function (url,data,success){
-            $("#info").html($.stringify(data));
+        get: function (url,data,success,failure,async,headers,isAuthRequest){
+            if (data) {
+                $("#info").html($.stringify(data));                
+            }
+            var server=serverUrl;
+            if(isAuthRequest && isAuthRequest===true){
+                server=authServerUrl;
+            }
+            var lastUrl = server+url+((data) ? "?" + $.stringify(data) : "");
+            console.log(lastUrl);   
             $.ajax({
                 type: "GET",
                 cache:false,
-                url: serverUrl+url+"?"+$.stringify(data),
+                url: lastUrl,
                 crossDomain: true,
+                async: async,
+                headers: headers,
                 success: function (json) {
                     if (success)
                         success(json);
                 },
                 error: function (responseData, textStatus, errorThrown) {
+                    if (failure)
+                        failure(responseData, textStatus, errorThrown);
                     console.log(responseData, textStatus, errorThrown)
                 },
                 dataType: "json",
