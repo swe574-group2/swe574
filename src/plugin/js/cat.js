@@ -74,7 +74,7 @@ var cat = (function () {
                         /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
                         "Authorization": "Basic " + btoa(nickpass)
                 },true);
-        },
+        })},
 //ŞK01 E
         addTextSelectionForm: function (selection) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
