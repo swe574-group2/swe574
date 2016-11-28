@@ -1,6 +1,5 @@
 package plugin.cat.annotation.model;
 
-import com.sun.istack.internal.Nullable;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -15,7 +14,6 @@ import java.util.List;
 @Entity
 public class AnnotationBodyParent extends AnnotationBody {
 
-    @Nullable
     @OneToMany(cascade = CascadeType.ALL)
     private List<AnnotationBodyElement> items;
 }
