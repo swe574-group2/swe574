@@ -8,7 +8,7 @@ var cat = (function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
                 console.log("cat.js: Retrieving Count");
-                cat.post("/annotation/countById", {"id": tabs[0].url}, function (json) {
+                cat.post("/annotation/count", {"target": tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
