@@ -67,7 +67,9 @@ var cat = (function () {
                     },
                     error: function (responseData, textStatus, errorThrown) {
                         console.log(responseData, textStatus, errorThrown)
-                        window.location = 'http://github.com';
+                        /*window.location = 'http://github.com';*/
+                        $("#lblloginMessage").text("check your username/password");
+                        $("#loginInfoMessage").removeClass("hide");
                     },
                     dataType: "json",
                     contentType: "application/json"
