@@ -69,10 +69,6 @@ $('document').ready(function()
         unhighlight: function(element, errorClass, validClass) {
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
             $(element).closest('.form-group').find('.help-block').html('');
-        },
-
-        submitHandler: function(form) {
-            form.submit();
         }
     });
 });

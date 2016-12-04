@@ -6,10 +6,10 @@
   "content_security_policy": "script-src 'self'; object-src 'self'; img-src 'self'",
   "browser_action": {
     "default_icon": {
-      "255": "img/cat_48.jpg"
+      "48": "/img/cat_48.jpg"
     },
     "default_title": "Cat",
-    "default_popup": "html/index.html"
+    "default_popup": "html/manage.html"
   },
   "background": {
     "scripts": [
@@ -22,7 +22,8 @@
     "http://*/",
     "tabs",
     "<all_urls>",
-    "contextMenus"
+    "contextMenus",
+    "storage"
 
   ],
   "content_scripts": [

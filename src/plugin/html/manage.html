@@ -10,28 +10,105 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Manage Annotations
+                Search Annotations
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-sm-12">
                         <p> Please Provide Count of Annotations to Display on This Page</p>
                         <div class="form-group">
-                            <label class="control-label">Count of Annotation</label>
-                            <div>
-                                <select>
-                                    <option value=1 name="CountOfAnnotation">1</option>
-                                    <option value=5 name="CountOfAnnotation">5</option>
-                                    <option value=10 name="CountOfAnnotation">10</option>
+                            <label class="control-label">Selector</label>
+                            <div class="">
+                                <select id="selector" class="form-control">
+                                    <option>--Select--</option>
+                                    <option value='image'>Image Selector</option>
+                                    <option value='text'>Text Selector</option>
+
                                 </select>
                             </div>
-                            <div>
-                                <button class="btn btn-sm btn-success pull-right" id="btnCount">Display</button>
+
+                        </div>
+                        <div class="form-group">,
+                            <label class="control-label">Motivation</label>
+                            <div class="">
+                                <select id="motivation" class="form-control">
+                                    <option>--Select--</option>
+                                    <option value='assessing'>Assesing</option>
+                                    <option value='bookmarking'>Book Marking</option>
+                                    <option value='classifying'>Classifying</option>
+                                    <option value='commenting'>Commenting</option>
+                                    <option value='describing'>Describing</option>
+                                    <option value='editing'>Editing</option>
+                                    <option value='highligthing'>Highligthing</option>
+                                    <option value='identifying'>Identifying</option>
+                                    <option value='linking'>Linking</option>
+                                    <option value='moderating'>Moderating</option>
+                                    <option value='questioning'>Questioning</option>
+                                    <option value='replying'>Replying</option>
+                                    <option value='tagging'>Tagging</option>
+                                </select>
                             </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Target</label>
+                            <div>
+                                <input type="text" class="form-control" id="target"/>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Creator</label>
+                            <div>
+                                <input type="text" class="form-control" id="creator"/>
+                            </div>
+
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"  id="private"/> Show My Annotations Only
+                            </label>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Count of Annotation</label>
+                            <div class="">
+                                <select id="pageSize" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Show Page</label>
+                            <div>
+                                <input type="number" class="form-control" value="1" id="currenPage"/>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12">
+                            <button class="btn btn-sm btn-success pull-right" id="btnCount">Search & Show</button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div style="margin-top: 10px">
+                            <button class=" hide btn btn-sm btn-primary pull-left" id="btnShowAnnotations">Show
+                                Annotations
+                            </button>
+                            <button class="btn btn-sm btn-warning pull-right" id="btnLogout">Logout</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 <script src="../js/jquery.min.js"></script>
 <script src="../js/cat.js"></script>
 <script src="manage.js"></script>

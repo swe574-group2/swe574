@@ -11,9 +11,8 @@ document.addEventListener("click", function(e) {
     }
 });
 
-
-
 renderAnnotationCount();
+
 function  renderAnnotationCount(){
     cat.getAnnotationCount();
 }

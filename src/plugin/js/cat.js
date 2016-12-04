@@ -38,12 +38,12 @@ cat = (function () {
             var email = $("#email").val();
             var password = $("#password").val();
             var registerInputData =
-                {
-                    "name": nickname,
-                    "nickname": nickname,
-                    "userType": "ROLE_MEMBER",
-                    "password": password
-                };
+            {
+                "name": nickname,
+                "nickname": nickname,
+                "userType": "ROLE_MEMBER",
+                "password": password
+            };
             cat.post("/users/register", registerInputData, function (json) {
                 window.location = "index.html";
                 console.log("registration succeeded");
@@ -63,9 +63,18 @@ cat = (function () {
                 cat.get("/users/user", null, function (json) {
                     console.log(json);
                     userName = json.principal.name;
-                    console.log(userName);
-                    window.location = "manage.html";
-                    success(json);
+                    var storing = browser.storage.local.set({"principal": json.principal});
+                    storing.then(function () {
+                        setTimeout(function () {
+                            document.location.href = "manage.html"
+                        }, 300);
+
+                    }, function () {
+                        $("#lblloginMessage").text("storage error");
+                        $("#loginInfoMessage").removeClass("hide");
+                    });
+
+
                 }, function (responseData, textStatus, errorThrown) {
                     /*window.location = 'http://github.com';*/
                     $("#lblloginMessage").text("check your username/password");
