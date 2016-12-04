@@ -47,7 +47,6 @@ cat = (function () {
             cat.post("/users/register", registerInputData, function (json) {
                 window.location = "index.html";
                 console.log("registration succeeded");
-                window.location = "index.html";
             }, true);
         },
 //ŞK01 B
