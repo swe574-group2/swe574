@@ -8,8 +8,40 @@
 <body>
 <div id="main-popup">
     <div class="container">
-        manage page
+        Manage Annotations
+    </div>
+    <div>
+        Search by Motivation
+        <select>
+            <option>Assesing</option>
+            <option>Book Marking</option>
+            <option>Classifying</option>
+            <option>Commenting</option>
+            <option>Describing</option>
+            <option>Editing</option>
+            <option>Highlighting</option>
+            <option>Identifying</option>
+            <option>Linking</option>
+            <option>Moderating</option>
+            <option>Questioning</option>
+            <option>Replying</option>
+            <option>Tagging</option>
+        </select>
+    </div>
+    <div>
+    Search by Creator
+    <input type="text" id="search-creator"/>
+    </div>
+    <div>
+        Search by Target
+        <input type="text" id="search-target"/>
+    </div>
+    <div>
+        <input type="button" id="search" value="search" onClick="tes();"/>
     </div>
 </div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/cat.js"></script>
+<script src="manage.js"></script>
 </body>
 </html>
