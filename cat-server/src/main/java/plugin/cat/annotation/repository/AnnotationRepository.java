@@ -1,6 +1,8 @@
 package plugin.cat.annotation.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import plugin.cat.annotation.model.Annotation;
 
@@ -13,7 +15,8 @@ public interface AnnotationRepository extends PagingAndSortingRepository<Annotat
 
     long countById(String id);
 
-    long countByTarget(String target);
+    @Query("select count(source) from Annotation a where a.target.source = :source")
+    long countByTarget(@Param("source") String source);
 
     Iterable<Annotation> findAllById(String id);
 }

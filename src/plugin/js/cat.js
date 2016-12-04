@@ -1,13 +1,14 @@
 var cat = (function () {
     var serverUrl="http://localhost:8080";
     var authServerUrl="http://localhost:8081";
+    var userName="";
     return {
 
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
                 console.log("cat.js: Retrieving Count");
-                cat.post("/annotation/countById", {"id": tabs[0].url}, function (json) {
+                cat.post("/annotation/count", {"target": tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
@@ -32,31 +33,48 @@ var cat = (function () {
                     });
 
         },
+        register: function () {
+            var nickname = $("#nickName").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var registerInputData =
+            {
+                "name":nickname,
+                "nickname":nickname,
+                "userType":"ROLE_MEMBER",
+                "password":password
+            };
+            cat.post("/users/register", registerInputData, function (json) {
+                        console.log("registration succeeded");
+            },true);
+        },
 //ŞK01 B
         login: function () {
-
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                console.log("cat.js Login");
-                console.log("current tab url:"+tabs[0].url);
                 user = {};
                 user.nickname = $("#username").val();
                 user.password = $("#password").val();
-                alert("nickname " + user.nickname +  " password " + user.password) ;
 
-/*
-                cat.post("/user/authenticate", {"user": user}, function (json) {
-                    chrome.tabs.sendMessage(tabs[0].id, {
-                        "sender": "cat",
-                        "action": "login",
-                        "data":json
-                    }, function (response) {
-                    });
-                });
-*/
-            });
-
-
-        },
+                var authUrl = authServerUrl+"/users/user";
+                console.log(authUrl);
+                var nickpass = user.nickname+":"+user.password;
+                console.log("nickpass: " + nickpass);
+                console.log("btoa-nickpass: " + btoa(nickpass));
+                cat.get("/users/user", null, function (json) {
+                    console.log(json);
+                    userName=json.principal.name;
+                    console.log(userName);
+                    window.location="manage.html";
+                    success(json);
+                },function (responseData, textStatus, errorThrown) {
+                        /*window.location = 'http://github.com';*/
+                        $("#lblloginMessage").text("check your username/password");
+                        $("#loginInfoMessage").removeClass("hide");
+                },false,{
+                        /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
+                        "Authorization": "Basic " + btoa(nickpass)
+                },true);
+        })},
 //ŞK01 E
         addTextSelectionForm: function (selection) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -108,18 +126,30 @@ var cat = (function () {
                 contentType: "application/json; charset=utf-8"
             });
         },
-        get: function (url,data,success){
-            $("#info").html($.stringify(data));
+        get: function (url,data,success,failure,async,headers,isAuthRequest){
+            if (data) {
+                $("#info").html($.stringify(data));                
+            }
+            var server=serverUrl;
+            if(isAuthRequest && isAuthRequest===true){
+                server=authServerUrl;
+            }
+            var lastUrl = server+url+((data) ? "?" + $.stringify(data) : "");
+            console.log(lastUrl);   
             $.ajax({
                 type: "GET",
                 cache:false,
-                url: serverUrl+url+"?"+$.stringify(data),
+                url: lastUrl,
                 crossDomain: true,
+                async: async,
+                headers: headers,
                 success: function (json) {
                     if (success)
                         success(json);
                 },
                 error: function (responseData, textStatus, errorThrown) {
+                    if (failure)
+                        failure(responseData, textStatus, errorThrown);
                     console.log(responseData, textStatus, errorThrown)
                 },
                 dataType: "json",
