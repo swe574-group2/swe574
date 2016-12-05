@@ -35,7 +35,7 @@
         "js/jquery.min.js",
         "js/content_script.js",
         "js/common.js",
-        "jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.min.js"
+        "jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.js"
       ],
       "css": [
         "jquery.imgareaselect-0.9.10/css/imgareaselect-animated.css",

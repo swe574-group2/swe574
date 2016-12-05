@@ -14,7 +14,7 @@ function init(){
     $('img').imgAreaSelect({
         handles: true,
         onSelectEnd: function (e,selection) {
-            $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview'>")
+            $("#cat-annotations-container .panel-body").eq(1).append("<div id='cat-image-preview'>")
         },
         onSelectChange: preview
     });
@@ -30,10 +30,10 @@ function preview(img, selection) {
 /*if($("#cat-annotations-container .panel-body #cat-image-preview").length==0) {
     $("#cat-annotations-container .panel-body").append("<div id='cat-image-preview' style='float: left; overflow-y:auto;   position: relative; overflow: hidden; width: 100px; height: 100px;' />")
 }*/
-    $("#cat-image-preview").html("<img src='"+img.src+"' />");
+    $("#cat-image-preview").html("<img class='hide' src='"+img.src+"' />");
 
 
-var imgWidth=$(img).width();
+    var imgWidth=$(img).width();
     var imgHeight=$(img).height();
 
     $('#cat-annotations-container .panel-body #cat-image-preview > img').css({
@@ -42,6 +42,7 @@ var imgWidth=$(img).width();
         marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
         marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
     });
+    $('#cat-annotations-container .panel-body #cat-image-preview > img').removeClass("hide");
 }
 function hightlightAnnotation (i){
     var selector="#cat-annotation-"+i;
@@ -76,7 +77,7 @@ function addAnnotationsContainer() {
         "<div class='pull-right'><button id='closeAnnotator' class='btn btn-sm btn-danger'>Close</button></div>" +
         "<button id='clearHighlights' class='btn btn-sm btn-danger'>Clear Highlights</button></div>" +
         " <div id='cat-info' style='font-size:12px;width:200px' class='alert alert-warning'>W3 Web Annotator</div><div class='clearfix'></div><hr/>" +
-        "<div id='cat-container-body' style='height: 300px; overflow-y: auto'></div>"+
+        "<div id='cat-container-body' style='height: 300px; padding: 10px; overflow-y: auto'></div>"+
         "</div></div>")
 }
 function getHeaderHtml(){
@@ -90,9 +91,16 @@ function removeAnnotationsContainer() {
     isCatActive=false;
 }
 function addAnnotations(data){
-    gorups=[];
+    groups=[];
     if(data==null || data==undefined) return;
+
     var $container=$("#cat-container-body");
+    $("img","body").each(function (i,e) {
+        var inst=$(e).imgAreaSelect({instance:true});
+        if(inst!=undefined){
+            //inst.addClass("hide");
+        }
+    });
     var html="<div class='row'>";
     $(data).each(function(i,e){
         //text selecton
@@ -174,64 +182,115 @@ function addAnnotations(data){
         }
         //image
         else if(e.target.selector.type==="FragmentSelector"){
-            highlightImage(e.target.source,e.target.selector,i);
+            var added2=false;
+            if(index==0){
+                groups.push({id:groupId,annotations:[e]});
+                added2=true;
+            }
+            else{
+                var a2=false;
+                $(groups).each(function(i2,e2){
+                    if(a2==false) {
+                        var ann = e2.annotations[0];
+                        if (ann.target.source== e.target.source
+                        ) {
+                            a2 = true;
+                            groups[i2].annotations.push(e);
+                            added2 = true;
+                            //return true;
+                        }
+                    }
+                });
+
+            }
+            if(added2 ==false){
+                groupId++;
+                groups.push({id:groupId,annotations:[e]});
+            }
+
+            index++;
+            //highlightImage(e.target.source,e.target.selector,i);
         }
 
     });
     $container.html(html);
-    console.log(groups);
+    console.log("groups",groups);
     $(groups).each(function (i,e){
         var ann=e.annotations[0];
-       // highlightText(e)
-        var found=false;
-        $(".highlighted").each(function(i3,e3){
+       if(ann.target.selector.type=="TextPositionSelector") {
+           var found = false;
+           $(".highlighted").each(function (i3, e3) {
 
+               if ($(e3).text().startsWith(ann.target.selector.value)) {
+                   found = true;
+               }
+           });
+           if (found == false) {
+               $(tempNodes).each(function (i2, e2) {
+                   try {
+                       if (tempNodes[i2].nodeValue.substr(ann.target.selector.start, ann.target.selector.value.length) === ann.target.selector.value) {
+                           var html = e2.nodeValue.replace(ann.target.selector.value, "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>")
+                           $("body").html($("body").html().replace(ann.target.selector.value, html));
+                       }
+                   }
+                   catch (e) {
 
-            if($(e3).text().startsWith(ann.target.selector.value)) {
-                found=true;
-            }
-        });
-        if(found==false) {
-            $(tempNodes).each(function (i2, e2) {
-                try {
-                    if (tempNodes[i2].nodeValue.substr(ann.target.selector.start, ann.target.selector.value.length) === ann.target.selector.value) {
-                        var html = e2.nodeValue.replace(ann.target.selector.value, "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>")
-                        $("body").html($("body").html().replace(ann.target.selector.value, html));
-                    }
-                }
-                catch (e) {
-
-                }
-            });
-        }
+                   }
+               });
+           }
+       }
+       else if(ann.target.selector.type=="FragmentSelector"){
+           highlightImage(ann.target.source,ann.target.selector,i);
+       }
     });
 
+    $(".imgareaselect-border4").click(function (e) {
+        showSelectedAnnotationGroup($(this));
+    });
 
 
     $("span.highlighted").on("click",function(){
-        var index=parseInt($(this).data("index"));
-        $(groups).each(function(i2,e2){
 
-            if(i2==index){
-                var html="<div class='row'>";
-                $(e2.annotations).each(function(i,e) {
-                    html += "<div id='cat-annotation-" + i + "'>"
-                    html += "<div class='col-sm-12'>Type : TextSelection </div>";
-                    html += "<div class='col-sm-12'>Selected Text : " + e.target.selector.value + " </div>";
-                    html += "<div class='col-sm-12'>Annotation : " + e.body.value + " </div>";
-                    html += "<div class='col-sm-12'>Purpose : " + e.body.purpose + " </div>";
-                    html += "<div class='col-sm-12'><hr /></div></div>"
-                });
-                html+="</div>";
-                var $container=$("#cat-container-body");
-                $container.html(html);
-            }
-        });
-
+        showSelectedAnnotationGroup(this);
 
     });
 
 
+}
+
+function showSelectedAnnotationGroup(elm) {
+    var index=parseInt($(elm).data("index"));
+    console.log("aslkdj",elm);
+    $(groups).each(function(i2,e2){
+
+        if(i2==index){
+            var html="<div class='row'>";
+            $(e2.annotations).each(function(i,e) {
+                if(e.target.selector.type=="TextPositionSelector"){
+                    html+="<div id='cat-annotation-"+i+"'>"
+                    html+="<div class='col-sm-12'>Type : TextSelection </div>";
+                    html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
+                    html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
+                    html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+                    html+="<div class='col-sm-12'><hr /></div></div>"
+
+                }
+                //image
+                else if(e.target.selector.type==="FragmentSelector"){
+                    html+="<div id='cat-annotation-"+i+"'>"
+                    html+="<div class='col-sm-12'>Type : FragmentSelector </div>";
+                    html+="<div class='col-sm-12'>Selected Image : "+e.target.source+" </div>";
+                    html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
+                    html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+                    html+="<div class='col-sm-12'><a class='annotation-highlight' data-groupId='"+index+"' data-id='"+i+"'>  Highlight</a> </div>";
+                    html+="<div class='col-sm-12'><hr /></div></div>"
+                }
+            });
+            html+="</div>";
+            var $container=$("#cat-container-body");
+            $container.html(html);
+        }
+    });
 }
 
 //** hightlighting **//
@@ -252,29 +311,42 @@ function highlightText(ann){
     init();
 
 }
-function highlightImage(src,selector,i){
+function highlightImage(src,selector,index){
     console.log("highlighting image:",src,selector);
    $("img","body").each(function (i,e) {
-        console.log($(e).attr("src"));
         if(src.endsWith($(e).attr("src")))  {
+            var slct=$(e).imgAreaSelect( {instance:true});
+            slct.cancelSelection();
+
             var arr= selector.value.replace("xywh=","").split(",");
-            console.log(arr);
-            $(e).imgAreaSelect( {x1:parseInt(arr[0]),  y1:parseInt(arr[1]), x2: parseInt(arr[0])+parseInt(arr[2]),  y2:parseInt(arr[1])+parseInt(arr[3])});
+
+            var options={movable:false,resizable:false,handles:false,x1:parseInt(arr[0]),  y1:parseInt(arr[1]),
+                x2: parseInt(arr[0])+parseInt(arr[2]),  y2:parseInt(arr[1])+parseInt(arr[3]),
+                index:index
+            };
+
+            slct.setOptions(options);
+            slct.update(false);
+
+
         }
     });
     //init();
 
 }
 
-
 /** click event **/
 
 window.addEventListener("click", notifyExtension);
 
 function notifyExtension(e) {
+    console.log(e.target);
     if (e.target.id == "closeAnnotator") {
         console.log("closing annotator")
         removeAnnotationsContainer();
+        $("img","body").each(function (i,e) {
+            $(e).imgAreaSelect({remove:true});
+        });
         return;
     }
     else if (e.target.id == "btnCloseTextAnnotation") {
@@ -287,8 +359,13 @@ function notifyExtension(e) {
             var index=parseInt($(e).data("index"));
             $(e).replaceWith(groups[index].annotations[0].target.selector.value);
         });*/
+        $("img","body").each(function (i,e) {
+            $(e).imgAreaSelect({remove:true});
+        });
         $("body").html(originalHtml);
+
         addAnnotationsContainer();
+        init();
         return;
     }
 
@@ -300,7 +377,13 @@ function notifyExtension(e) {
         console.log("saving image annotation");
         chrome.runtime.sendMessage({"action":"saveImageAnnotation",data:common.getImageAnnotation()});
     }
+    else if($(e.target).hasClass("annotation-highlight") ){
+        var groupId=$(e.target).data("groupid");
+        var index=$(e.target).data("id");
+        var ann=groups[groupId].annotations[index];
+        highlightImage(ann.target.source,ann.target.selector,groupId);
 
+    }
 }
 
 /** end of click event **/
