@@ -161,6 +161,7 @@ $.imgAreaSelect = function (img, options) {
     }
 
     function update(resetKeyPress) {
+
         if (!shown) return;
 
         $box.css({ left: viewX(selection.x1), top: viewY(selection.y1) })
@@ -209,6 +210,7 @@ $.imgAreaSelect = function (img, options) {
             $border.css('margin', 0);
             setTimeout(function () { $border.css('margin', 'auto'); }, 0);
         }
+
     }
 
     function doUpdate(resetKeyPress) {
@@ -216,6 +218,7 @@ $.imgAreaSelect = function (img, options) {
         update(resetKeyPress);
         x1 = viewX(selection.x1); y1 = viewY(selection.y1);
         x2 = viewX(selection.x2); y2 = viewY(selection.y2);
+
     }
 
     function hide($elem, fn) {
@@ -543,8 +546,13 @@ $.imgAreaSelect = function (img, options) {
     }
 
     function setOptions(newOptions) {
+        console.log("border",$border);
         if (newOptions.parent)
             ($parent = $(newOptions.parent)).append($box.add($outer));
+        if(newOptions.index!==undefined) {
+            console.log("b3",$border[3])
+            $($border[3]).attr("data-index", newOptions.index);
+        }
 
         $.extend(options, newOptions);
 
@@ -643,6 +651,8 @@ $.imgAreaSelect = function (img, options) {
         }
 
         options.enable = options.disable = undefined;
+
+
     }
 
     this.remove = function () {

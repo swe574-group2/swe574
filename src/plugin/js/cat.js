@@ -1,7 +1,8 @@
-var cat = (function () {
-    var serverUrl="http://localhost:8080";
-    var authServerUrl="http://localhost:8081";
-    var userName="";
+var cat;
+cat = (function () {
+    var serverUrl = "http://localhost:8080";
+    var authServerUrl = "http://localhost:8081";
+    var userName = "";
     return {
 
         getAnnotationCount: function () {
@@ -18,19 +19,18 @@ var cat = (function () {
 
         },
         showAnnotations: function () {
-
-                chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                    console.log("current tab url:"+tabs[0].url);
-                    cat.post("/annotation/listById", {"id": tabs[0].url}, function (json) {
-                        chrome.tabs.sendMessage(tabs[0].id, {
-                            "sender": "cat",
-                            "action": "showAnnotations",
-                            "data":json
-                        }, function (response) {
-                        });
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                console.log("current tab url:" + tabs[0].url);
+                cat.post("/annotation/listById", {"id": tabs[0].url}, function (json) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        "sender": "cat",
+                        "action": "showAnnotations",
+                        "data": json
+                    }, function (response) {
                     });
+                });
 
-                    });
+            });
 
         },
         register: function () {
@@ -39,14 +39,15 @@ var cat = (function () {
             var password = $("#password").val();
             var registerInputData =
             {
-                "name":nickname,
-                "nickname":nickname,
-                "userType":"ROLE_MEMBER",
-                "password":password
+                "name": nickname,
+                "nickname": nickname,
+                "userType": "ROLE_MEMBER",
+                "password": password
             };
             cat.post("/users/register", registerInputData, function (json) {
-                        console.log("registration succeeded");
-            },true);
+                window.location = "index.html";
+                console.log("registration succeeded");
+            }, true);
         },
 //ŞK01 B
         login: function () {
@@ -54,27 +55,36 @@ var cat = (function () {
                 user = {};
                 user.nickname = $("#username").val();
                 user.password = $("#password").val();
-
-                var authUrl = authServerUrl+"/users/user";
+                var authUrl = authServerUrl + "/users/user";
                 console.log(authUrl);
-                var nickpass = user.nickname+":"+user.password;
+                var nickpass = user.nickname + ":" + user.password;
                 console.log("nickpass: " + nickpass);
                 console.log("btoa-nickpass: " + btoa(nickpass));
                 cat.get("/users/user", null, function (json) {
                     console.log(json);
-                    userName=json.principal.name;
-                    console.log(userName);
-                    window.location="manage.html";
-                    success(json);
-                },function (responseData, textStatus, errorThrown) {
-                        /*window.location = 'http://github.com';*/
-                        $("#lblloginMessage").text("check your username/password");
+                    userName = json.principal.name;
+                    var storing = browser.storage.local.set({"principal": json.principal});
+                    storing.then(function () {
+                        setTimeout(function () {
+                            document.location.href = "manage.html"
+                        }, 300);
+
+                    }, function () {
+                        $("#lblloginMessage").text("storage error");
                         $("#loginInfoMessage").removeClass("hide");
-                },false,{
-                        /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
-                        "Authorization": "Basic " + btoa(nickpass)
-                },true);
-        })},
+                    });
+
+
+                }, function (responseData, textStatus, errorThrown) {
+                    /*window.location = 'http://github.com';*/
+                    $("#lblloginMessage").text("check your username/password");
+                    $("#loginInfoMessage").removeClass("hide");
+                }, false, {
+                    /*"Authorization": "Basic " + btoa(user.nickname + ":" + user.password)*/
+                    "Authorization": "Basic " + btoa(nickpass)
+                }, true);
+            })
+        },
 //ŞK01 E
         addTextSelectionForm: function (selection) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -96,49 +106,50 @@ var cat = (function () {
             })
 
         },
-        post: function (url, data, success,isAuthRequest) {
-            var server=serverUrl;
-            if(isAuthRequest && isAuthRequest===true){
-                server=authServerUrl;
+        post: function (url, data, success, isAuthRequest) {
+            var server = serverUrl;
+            if (isAuthRequest && isAuthRequest === true) {
+                server = authServerUrl;
             }
 
-           // console.log(JSON.stringify(data));
+            // console.log(JSON.stringify(data));
             $.ajax({
                 type: "POST",
-                url: server+url,
+                url: server + url,
                 data: JSON.stringify(data),
                 crossDomain: true,
-                cache:false,
+                cache: false,
                 success: function (json) {
-                    console.log("success",json)
+                    console.log("success", json)
                     if (success)
                         success(json);
                 },
                 error: function (json) {
-                   console.log(json)
+                    console.log(json)
                     //$("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
 
                 },
-                complete:function (json) {
-                    console.log("post completed",json)
+                complete: function (json) {
+                    console.log("post completed", json)
                 },
                 //dataType: "json",
                 contentType: "application/json; charset=utf-8"
             });
         },
-        get: function (url,data,success,failure,async,headers,isAuthRequest){
+
+        get: function (url, data, success, failure, async, headers, isAuthRequest) {
             if (data) {
-                $("#info").html($.stringify(data));                
+                $("#info").html($.stringify(data));
             }
-            var server=serverUrl;
-            if(isAuthRequest && isAuthRequest===true){
-                server=authServerUrl;
+            var server = serverUrl;
+            if (isAuthRequest && isAuthRequest === true) {
+                server = authServerUrl;
             }
-            var lastUrl = server+url+((data) ? "?" + $.stringify(data) : "");
-            console.log(lastUrl);   
+            var lastUrl = server + url + ((data) ? "?" + $.stringify(data) : "");
+            console.log(lastUrl);
             $.ajax({
                 type: "GET",
-                cache:false,
+                cache: false,
                 url: lastUrl,
                 crossDomain: true,
                 async: async,
