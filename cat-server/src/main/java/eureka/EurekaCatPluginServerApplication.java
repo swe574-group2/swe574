@@ -3,10 +3,10 @@ package eureka;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 /**
  * Created by tolgacaner on 05/11/16.
+ * This is the main class that connects authentication and annotation servers.
  */
 @SpringBootApplication
 @EnableEurekaServer
