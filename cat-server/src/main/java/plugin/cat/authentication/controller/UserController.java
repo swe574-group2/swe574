@@ -2,15 +2,14 @@ package plugin.cat.authentication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import plugin.cat.annotation.model.Annotation;
-import plugin.cat.annotation.util.AnnotationRoutingUtil;
 import plugin.cat.authentication.model.User;
 import plugin.cat.authentication.service.IUserService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 
 /**
@@ -37,7 +36,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/byId/{id}", method = RequestMethod.GET)
     public User getUser(@PathVariable("id") long id) {
-        System.out.println(id);
         return userService.getUser(id);
     }
 
@@ -49,8 +47,10 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK, reason = "User is created successfully.")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void registerUser(@RequestBody User user) {
-        userService.registerUser(user);
+    public User registerUser(@RequestBody User user) {
+        if (userService.registerUser(user) == null)
+            return userService.registerUser(user);
+        return null;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
@@ -84,14 +84,9 @@ public class UserController {
     }
 
     // These methods call their counterparts in the Annotation server
-    @RequestMapping(value = {"", "/annotation"}, method = RequestMethod.GET)
-    public String getAnnotations() {
-        return AnnotationRoutingUtil.makeHttpGet("http://localhost:8080/annotation/");
-    }
 
-    @ResponseStatus(value = HttpStatus.OK, reason = "Annotation is added successfully.")
-    @RequestMapping(value = "/annotation", method = RequestMethod.POST)
-    public void addAnnotation(@RequestBody Annotation annotation) {
-        AnnotationRoutingUtil.createAnnotation(annotation);
+    @RequestMapping(value = "/annotation", method = RequestMethod.GET)
+    public void getAnnotations(HttpServletResponse response) throws IOException {
+        response.sendRedirect("http://localhost:8080/annotation/");
     }
 }
