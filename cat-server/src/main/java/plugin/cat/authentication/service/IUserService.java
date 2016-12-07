@@ -14,7 +14,7 @@ public interface IUserService extends UserDetailsService {
 
     User getUserByNickname(String nickname);
 
-    void registerUser(User user);
+    User registerUser(User user);
 
     void deleteUserByNickname(String nickname);
 }
