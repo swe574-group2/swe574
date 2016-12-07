@@ -22,8 +22,12 @@ public class Annotation extends AbstractEntity {
     @Column(nullable = false)
     private String motivation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Creator creator;
+
+    @JsonProperty("private")
+    @Column(nullable = false)
+    private boolean isPrivate = false;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -39,10 +43,9 @@ public class Annotation extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private AnnotationBody body;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private AnnotationTarget target;
 }

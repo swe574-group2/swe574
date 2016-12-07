@@ -13,7 +13,7 @@ public class AnnotationBody extends AbstractEntity {
     private String purpose;
 
     // Contains the body text
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
     private String format;
