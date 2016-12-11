@@ -28,16 +28,15 @@ public class AnnotationController {
     @ResponseStatus(value = HttpStatus.OK, reason = "Annotation is added successfully.")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addAnnotation(@RequestBody Annotation annotation) {
-
         annotationService.saveAnnotation(annotation);
         Util.assignIdsToAnnotation(annotation);
         annotationService.saveAnnotation(annotation);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @Transactional
-    public void deleteAnnotation(@PathVariable String id) {
-        annotationService.deleteById(id);
+    public void deleteAnnotation(@RequestBody AnnotationRequest annotationRequest) {
+        annotationService.deleteById(annotationRequest.getId());
     }
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)

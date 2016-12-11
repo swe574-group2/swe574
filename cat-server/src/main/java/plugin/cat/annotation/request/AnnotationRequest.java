@@ -24,6 +24,8 @@ public class AnnotationRequest {
 
     private String motivation;
 
+    private String id;
+
     boolean isPrivate;
 
     private int pageNumber;
