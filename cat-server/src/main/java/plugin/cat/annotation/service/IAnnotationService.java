@@ -12,6 +12,8 @@ public interface IAnnotationService {
 
     void saveAnnotation(Annotation annotation);
 
+    int deleteById(String id);
+
     Iterable<Annotation> getAllAnnotations(int pageNumber, int pageSize);
 
     long countAllAnnotations();

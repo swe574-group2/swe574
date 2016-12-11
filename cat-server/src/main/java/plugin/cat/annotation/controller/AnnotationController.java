@@ -2,6 +2,7 @@ package plugin.cat.annotation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import plugin.cat.annotation.model.*;
 import plugin.cat.annotation.request.AnnotationRequest;
@@ -31,6 +32,12 @@ public class AnnotationController {
         annotationService.saveAnnotation(annotation);
         Util.assignIdsToAnnotation(annotation);
         annotationService.saveAnnotation(annotation);
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @Transactional
+    public void deleteAnnotation(@PathVariable String id) {
+        annotationService.deleteById(id);
     }
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)

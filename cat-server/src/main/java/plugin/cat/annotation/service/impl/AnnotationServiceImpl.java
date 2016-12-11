@@ -131,4 +131,9 @@ public class AnnotationServiceImpl implements IAnnotationService {
     public long countAdvancedSearch(String selectorType, String motivation, String bodyValue, String nickname, Date startDate, Date endDate, boolean isPrivate) {
         return annotationRepository.countAdvancedSearch(selectorType, motivation, bodyValue, nickname, startDate, endDate, isPrivate);
     }
+
+    @Override
+    public int deleteById(String id) {
+        return annotationRepository.deleteById(id);
+    }
 }

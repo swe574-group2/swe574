@@ -46,6 +46,8 @@ public interface AnnotationRepository extends PagingAndSortingRepository<Annotat
 
     long countByTargetSourceAndCreatorNicknameAndIsPrivateIsTrue(String targetSource, String creatorNickname);
 
+    int deleteById(String id);
+
     @Query("select a from Annotation a where (a.created between :startDate and :endDate)" +
             "and (lower(a.body.value) like %:bodyValue% or :bodyValue is null)")
     List<Annotation> basicSearch(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("bodyValue") String bodyValue, Pageable pageable);
