@@ -45,12 +45,16 @@ public class UserController {
         return userService.getUserByNickname(nickname);
     }
 
-    @ResponseStatus(value = HttpStatus.OK, reason = "User is created successfully.")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public User registerUser(@RequestBody User user) {
-        if (userService.registerUser(user) == null)
-            return userService.registerUser(user);
-        return null;
+    public String registerUser(@RequestBody User user) {
+        User userFromDB = getUserByNickname(user.getNickname());
+
+        if (userFromDB == null) {
+            userService.registerUser(user);
+            return "User is created successfully";
+        } else {
+            return "There is already a user with this nickname";
+        }
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
