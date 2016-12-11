@@ -3,9 +3,10 @@ package plugin.cat.annotation.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import plugin.cat.annotation.model.Annotation;
+import plugin.cat.annotation.model.*;
 import plugin.cat.annotation.request.AnnotationRequest;
 import plugin.cat.annotation.service.IAnnotationService;
+import plugin.cat.annotation.util.Util;
 
 /**
  * Created by okanm on 17.10.2016.
@@ -26,6 +27,9 @@ public class AnnotationController {
     @ResponseStatus(value = HttpStatus.OK, reason = "Annotation is added successfully.")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addAnnotation(@RequestBody Annotation annotation) {
+
+        annotationService.saveAnnotation(annotation);
+        Util.assignIdsToAnnotation(annotation);
         annotationService.saveAnnotation(annotation);
     }
 
