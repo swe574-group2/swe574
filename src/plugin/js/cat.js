@@ -1,7 +1,7 @@
 var cat;
 cat = (function () {
-    var serverUrl = "http://localhost:8080";
-    var authServerUrl = "http://localhost:8081";
+    var serverUrl = "http://localhost:8081";
+    var authServerUrl = "http://localhost:8080";
     var userName = "";
     return {
 
@@ -44,7 +44,7 @@ cat = (function () {
                 "userType": "ROLE_MEMBER",
                 "password": password
             };
-            cat.post("/users/register", registerInputData, function (json) {
+            cat.post("/register", registerInputData, function (json) {
                 window.location = "index.html";
                 console.log("registration succeeded");
             }, true);
@@ -55,12 +55,10 @@ cat = (function () {
                 user = {};
                 user.nickname = $("#username").val();
                 user.password = $("#password").val();
-                var authUrl = authServerUrl + "/users/user";
-                console.log(authUrl);
                 var nickpass = user.nickname + ":" + user.password;
                 console.log("nickpass: " + nickpass);
                 console.log("btoa-nickpass: " + btoa(nickpass));
-                cat.get("/users/user", null, function (json) {
+                cat.get("/user", null, function (json) {
                     console.log(json);
                     userName = json.principal.name;
                     var storing = browser.storage.local.set({"principal": json.principal});
@@ -111,8 +109,9 @@ cat = (function () {
             if (isAuthRequest && isAuthRequest === true) {
                 server = authServerUrl;
             }
-
-            // console.log(JSON.stringify(data));
+            var urll = server + url;
+            console.log(urll);
+            console.log(JSON.stringify(data));
             $.ajax({
                 type: "POST",
                 url: server + url,

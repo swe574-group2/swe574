@@ -97,7 +97,7 @@ public class UserController {
         response.sendRedirect("http://localhost:8080/annotation/");
     }
 
-    @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count","/add"}, method = RequestMethod.POST)
     public void annotationRedirectGateway(HttpServletRequest request, HttpServletResponse response, @RequestBody AnnotationRequest annotationRequest) {
         String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
