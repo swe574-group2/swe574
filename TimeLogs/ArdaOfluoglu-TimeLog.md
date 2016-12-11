@@ -32,5 +32,11 @@
 ## WEEK 9 (14 October - 21 November)
 * 19 October. Did research routing requests from authentication server to annotation server. (4 hours)
 
-## WEEK 10 (21 October - 28 November)
+## WEEK 10 (21 November - 28 November)
 * 19 October. Added routing for getAnnotations method (4 hours)
+
+## WEEK 11 (28 November - 5 December)
+* No implementation, just keeping up with the team.
+
+## WEEK 12 (5 December - 12 December)
+* 11 December. Added id generation for annotation components that creates component-specific urls. Fixed registration webservice by returning String messages depending on nickname. Added an endpoint for deleting an annotation by id. Other fixes. (4 hours)
