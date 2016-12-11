@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
+import plugin.cat.annotation.model.Annotation;
+import plugin.cat.annotation.request.AnnotationRequest;
 import plugin.cat.authentication.model.User;
 import plugin.cat.authentication.service.IUserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -16,7 +20,6 @@ import java.security.Principal;
  * Created by tolgacaner on 05/11/16.
  */
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -88,5 +91,12 @@ public class UserController {
     @RequestMapping(value = "/annotation", method = RequestMethod.GET)
     public void getAnnotations(HttpServletResponse response) throws IOException {
         response.sendRedirect("http://localhost:8080/annotation/");
+    }
+
+    @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count"}, method = RequestMethod.POST)
+    public void annotationRedirectGateway(HttpServletRequest request, HttpServletResponse response, @RequestBody AnnotationRequest annotationRequest) {
+        String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
+        response.setStatus(307); //this makes the redirection keep your requesting method as is.
+        response.addHeader("Location", "http://localhost:8081" + path);
     }
 }
