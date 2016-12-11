@@ -8,31 +8,45 @@ import plugin.cat.annotation.model.*;
 public class Util {
     public static void assignIdsToAnnotation(Annotation annotation) {
 
-        String annotationIdUrlPrefix = "http://example.org/anno";
-        annotation.setId(annotationIdUrlPrefix + annotation.getEntityId());
+        if (Util.isEmpty(annotation.getId())) {
+            String annotationIdUrlPrefix = "http://example.org/anno";
+            annotation.setId(annotationIdUrlPrefix + annotation.getEntityId());
+        }
 
         AnnotationGenerator generator = annotation.getGenerator();
         if (generator != null) {
-            String generatorIdUrlPrefix = "http://example.org/client";
-            generator.setId(generatorIdUrlPrefix + generator.getEntityId());
+            if (Util.isEmpty(generator.getId())) {
+                String generatorIdUrlPrefix = "http://example.org/client";
+                generator.setId(generatorIdUrlPrefix + generator.getEntityId());
+            }
         }
 
         AnnotationBody body = annotation.getBody();
         if (body != null) {
-            String bodyIdUrlPrefix = "http://example.org/body";
-            body.setId(bodyIdUrlPrefix + generator.getEntityId());
+            if (Util.isEmpty(body.getId())) {
+                String bodyIdUrlPrefix = "http://example.org/body";
+                body.setId(bodyIdUrlPrefix + generator.getEntityId());
+            }
         }
 
         AnnotationTarget target = annotation.getTarget();
         if (target != null) {
-            String targetIdUrlPrefix = "http://example.org/target";
-            target.setId(targetIdUrlPrefix + target.getEntityId());
+            if (Util.isEmpty(target.getId())) {
+                String targetIdUrlPrefix = "http://example.org/target";
+                target.setId(targetIdUrlPrefix + target.getEntityId());
+            }
 
             Selector selector = target.getSelector();
             if (selector != null) {
-                String selectorIdUrlPrefix = "http://example.org/selector";
-                selector.setId(selectorIdUrlPrefix + selector.getEntityId());
+                if (Util.isEmpty(selector.getId())) {
+                    String selectorIdUrlPrefix = "http://example.org/selector";
+                    selector.setId(selectorIdUrlPrefix + selector.getEntityId());
+                }
             }
         }
+    }
+
+    public static boolean isEmpty(String s) {
+        return s == null || s.equals("") || s.equals("null");
     }
 }
