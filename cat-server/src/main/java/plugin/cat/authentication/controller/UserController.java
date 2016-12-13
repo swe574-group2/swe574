@@ -69,7 +69,7 @@ public class UserController {
     @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count","/add", "/delete"}, method = RequestMethod.POST)
     public void annotationRedirectGateway(HttpServletRequest request, HttpServletResponse response) {
         String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
-        response.setStatus(307); //this makes the redirection keep your requesting method as is.
+        response.setStatus(308) ;
         response.addHeader("Location", "http://localhost:8081" + path);
     }
 }
