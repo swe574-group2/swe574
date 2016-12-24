@@ -2,10 +2,15 @@
 spring:
   application:
      name: authentication-service
-  data-source:
-    url: jdbc:h2:mem:dev
-    driver-class-name: org.h2.Driver
-
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cat_authentication?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
 
 # Discovery Server Access
 eureka:
@@ -14,14 +19,10 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://admin:123456@localhost:1111/eureka/
+  instance:
+    preferIpAddress: true
+    instanceId: annotation-service-instance
 
-spring.datasource.driver-class-name: com.mysql.jdbc.Driver
-spring.datasource.url: jdbc:mysql://localhost:3306/authentication?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
-spring.datasource.username: root
-spring.datasource.password: root
-spring.jpa.generate-ddl: true
-spring.jpa.hibernate.ddl-auto: create
-spring.jpa.show-sql: true
 # HTTP Server
 server:
   port: 8080   # HTTP (Tomcat) port

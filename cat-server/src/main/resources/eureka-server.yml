@@ -6,12 +6,13 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
 
-server:
-  port: 1111   # HTTP (Tomcat) port
-
 security:
   basic:
     enabled: false
   user:
     name: admin
     password: 123456
+
+#HTTP Server
+server:
+  port: 1111   # HTTP (Tomcat) port
