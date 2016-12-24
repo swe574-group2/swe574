@@ -17,17 +17,12 @@
                     <div class="col-sm-12">
                         <p> Please Provide Count of Annotations to Display on This Page</p>
                         <div class="form-group">
-                            <label class="control-label">Selector</label>
+                            <label class="control-label">Search for</label>
                             <div class="">
-                                <select id="selector" class="form-control">
-                                    <option>--Select--</option>
-                                    <option value='image'>Image Selector</option>
-                                    <option value='text'>Text Selector</option>
-
-                                </select>
+                                <input type="search" class="form-control" placeholder="Enter text..." id="body"/>
                             </div>
 
-                        </div>
+                        </div><!--
                         <div class="form-group">,
                             <label class="control-label">Motivation</label>
                             <div class="">
@@ -70,7 +65,7 @@
                             </label>
 
                         </div>
-
+-->
                         <div class="form-group">
                             <label class="control-label">Count of Annotation</label>
                             <div class="">
@@ -92,9 +87,24 @@
                             </div>
 
                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Start Date <label class="label label-info">(yyyy-MM-dd)</label></label>
+                            <div>
+                                <input type="datetime" class="form-control"  id="startDate"/>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">End Date <label class="label label-info">(yyyy-MM-dd)</label></label>
+                            <div>
+                                <input type="date" class="form-control" id="endDate"/>
+                            </div>
+
+                        </div>
+
 
                         <div class="col-sm-12">
-                            <button class="btn btn-sm btn-success pull-right" id="btnCount">Search & Show</button>
+                            <button class="btn btn-sm btn-success pull-right" id="btnSearch">Search & Show</button>
                         </div>
                         <div class="clearfix"></div>
                         <div style="margin-top: 10px">

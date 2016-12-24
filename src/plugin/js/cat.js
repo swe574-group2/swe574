@@ -1,11 +1,14 @@
 var cat;
+
 cat = (function () {
     var serverUrl = "http://localhost:8080";
     //var authServerUrl = "http://localhost:8080";
-    var userName = "";
-    var count=0;
-    return {
 
+
+    return {
+        username : "",
+        count:0,
+        password:"",
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
@@ -14,15 +17,17 @@ cat = (function () {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
-                    count=json;
+                    cat.count=json;
                 })
             });
 
         },
         showAnnotations: function () {
+            cat.getAnnotationCount();
+            if(cat.count==0) cat.count=1;
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 console.log("current tab url:" + tabs[0].url);
-                cat.post("/source", {"targetSource": tabs[0].url,pageNumber:1,pageSize:count+1}, function (json) {
+                cat.post("/source", {"targetSource": tabs[0].url,pageNumber:1,pageSize:cat.count}, function (json) {
                     chrome.tabs.sendMessage(tabs[0].id, {
                         "sender": "cat",
                         "action": "showAnnotations",
@@ -61,7 +66,16 @@ cat = (function () {
                 console.log("btoa-nickpass: " + btoa(nickpass));
                 cat.get("/user", null, function (json) {
                     console.log(json);
-                    userName = json.principal.name;
+                    cat.username = json.principal.name;
+                    cat.password=user.password;
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        "sender": "cat",
+                        "action": "userLoggedin",
+                        "data":{loggedIn:true,username:cat.username}
+                    }, function (response) {
+                    });
+                    json.principal.password=user.password;
+
                     var storing = browser.storage.local.set({"principal": json.principal});
                     storing.then(function () {
                         setTimeout(function () {
@@ -95,27 +109,48 @@ cat = (function () {
                 });
             });
         },
-
-        saveAnnotation: function (annotation) {
-            console.log(annotation);
-            cat.post("/annotation", annotation, function (json) {
-                //get annotations
-                console.log("show annotations after save");
-                cat.showAnnotations();
-            })
+        logout:function(){
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    "sender": "cat",
+                    "action": "userLoggedin",
+                    "data": {loggedIn:false}
+                }, function (response) {
+                });
+            });
 
         },
-        post: function (url, data, success, isAuthRequest) {
+        saveAnnotation: function (annotation) {
+            annotation.creator.name=cat.username;
+            annotation.creator.nickname=cat.username;
+            console.log(annotation);
+            cat.post("/add", annotation, function (json) {
+                //get annotations
+
+                console.log("show annotations after save");
+                cat.showAnnotations();
+            },true)
+
+        },
+        post: function (url, data, success,isAuthRequest) {
             var server = serverUrl;
 
-            var urll = server + url;
-            console.log(urll);
-            console.log(JSON.stringify(data));
+
+
+            var nickpass = cat.username + ":" + cat.password;
+            console.log("nickpass",nickpass);
+            var headers={};
+            if(isAuthRequest&&isAuthRequest==true) {
+                headers = {
+                    "Authorization": "Basic " + btoa(nickpass)
+                };
+            }
             $.ajax({
                 type: "POST",
                 url: server + url,
                 data: JSON.stringify(data),
                 crossDomain: true,
+                headers:headers,
                 cache: false,
                 success: function (json) {
                     console.log("success", json)
@@ -162,6 +197,19 @@ cat = (function () {
                 dataType: "json",
                 contentType: "application/json"
             });
+        },
+        search:function(data){
+            cat.post("/basicSearch",{startDate:data.start,endDate:data.end,bodyValue:data.text,pageNumber:data.page,pageSize:data.pageSize },
+                function(json){
+                    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            "sender": "cat",
+                            "action": "showSearchResults",
+                            "data": {items:json,search:data.text}
+                        }, function (response) {
+                        });
+                    });
+            },true);
         }
     }
 })();
@@ -179,10 +227,47 @@ function handleMessage(message) {
         cat.saveAnnotation(message.data);
 
     } else if (message.action == "saveImageAnnotation") {
-        console.log("adkhdh");
         console.log(message.data);
         cat.saveAnnotation(message.data);
     }
+    else if(message.action=="getUser"){
+            getUser();
+        }
+    }
+function getUser() {
+    console.log("getting user")
 
+    var getPrincipal = browser.storage.local.get("principal");
+    getPrincipal.then(function(principal){
+        console.log("principal", principal);
+        if (principal.hasOwnProperty("principal")==false) {
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    "sender": "cat",
+                    "action": "userLoggedin",
+                    "data": {loggedIn:false}
+                }, function (response) {
+                });
+            });
+
+
+
+        }
+        else {
+            console.log("principal",principal)
+            cat.username=principal.principal.name;
+            cat.password=principal.principal.password;
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    "sender": "cat",
+                    "action": "userLoggedin",
+                    "data": {loggedIn:true,username:principal.principal.name}
+                }, function (response) {
+                });
+            });
+        }
+    },function (a) {
+        console.log("error",a)
+    })
 
 }
