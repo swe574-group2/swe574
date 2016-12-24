@@ -1,19 +1,20 @@
 var cat;
 cat = (function () {
-    var serverUrl = "http://localhost:8081";
-    var authServerUrl = "http://localhost:8080";
+    var serverUrl = "http://localhost:8080";
+    //var authServerUrl = "http://localhost:8080";
     var userName = "";
+    var count=0;
     return {
 
         getAnnotationCount: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
                 console.log("cat.js: Retrieving Count");
-                cat.post("/annotation/count", {"target": tabs[0].url}, function (json) {
+                cat.post("/source/count", {"targetSource": tabs[0].url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
-
+                    count=json;
                 })
             });
 
@@ -21,7 +22,7 @@ cat = (function () {
         showAnnotations: function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 console.log("current tab url:" + tabs[0].url);
-                cat.post("/annotation/listById", {"id": tabs[0].url}, function (json) {
+                cat.post("/source", {"targetSource": tabs[0].url,pageNumber:1,pageSize:count+1}, function (json) {
                     chrome.tabs.sendMessage(tabs[0].id, {
                         "sender": "cat",
                         "action": "showAnnotations",
@@ -106,9 +107,7 @@ cat = (function () {
         },
         post: function (url, data, success, isAuthRequest) {
             var server = serverUrl;
-            if (isAuthRequest && isAuthRequest === true) {
-                server = authServerUrl;
-            }
+
             var urll = server + url;
             console.log(urll);
             console.log(JSON.stringify(data));
@@ -141,9 +140,7 @@ cat = (function () {
                 $("#info").html($.stringify(data));
             }
             var server = serverUrl;
-            if (isAuthRequest && isAuthRequest === true) {
-                server = authServerUrl;
-            }
+
             var lastUrl = server + url + ((data) ? "?" + $.stringify(data) : "");
             console.log(lastUrl);
             $.ajax({
