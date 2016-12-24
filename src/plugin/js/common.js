@@ -102,7 +102,7 @@ var common = (function () {
                 "@context": "http://www.w3.org/ns/anno.jsonld",
                 "type": "Annotation",
                 "id": window.location.href,
-                "private": $("#annotation-type").prop("checked"),
+                "isPrivate": $("#annotation-type").val(),
                 "motivation": $("#annotation-motivation").find('option:selected').val(),
                 "target": {
                     "source": window.location.href,
@@ -118,14 +118,14 @@ var common = (function () {
                         "purpose": $("#annotation-motivation").find('option:selected').val(),
                         "source":{
                             "format":"text",
-                            "language":"en",
-                            "creator": {
-                                "name": $("#annotation-creator-name").val(),
-                                "nickname": $("#annotation-creator-nickName").val()
-                            },
+                            "language":"en"
+
                         }
                     },
-
+                "creator": {
+                    "name": $("#annotation-creator-name").val(),
+                    "nickname": $("#annotation-creator-nickName").val()
+                },
                 "generator": {
                     "name": "CatPlugin",
                     "homePage": "www.catplugin.net"
@@ -143,14 +143,14 @@ var common = (function () {
                     "@context": "http://www.w3.org/ns/anno.jsonld",
                     "type": "Annotation",
                     "id": window.location.href,
-                    "private": $("#annotation-type").prop("checked"),
+                    "isPrivate": $("#annotation-type").val(),
                     "motivation": $("#annotation-motivation").find('option:selected').val(),
                     "target": {
-                        "source":  $("#annotation-source").val(),
+                        "source": window.location.href, //$("#annotation-source").val(),
                         "selector": {
                             "type": "FragmentSelector",
                             "conformsTo":"http://www.w3.org/TR/media-frags/",
-                            "value": $("#annotation-target-selector-value").val()
+                            "value": $("#annotation-source").val()+"#"+$("#annotation-target-selector-value").val()
                         }
                     },
                     "body": {
@@ -158,17 +158,19 @@ var common = (function () {
                             "purpose": $("#annotation-motivation").find('option:selected').val(),
                             "source":{
                                 "format":$("annotation-source-format").val(),
-                                "language":"en",
-                                "creator": {
-                                    "name": $("#annotation-creator-name").val(),
-                                    "nickname": $("#annotation-creator-nickName").val()
-                                }
+                                "language":"en"
+
                             }
                     },
-
+                    "creator": {
+                        "name": $("#annotation-creator-name").val(),
+                        "nickname": $("#annotation-creator-nickName").val()
+                    },
                     "generator": {
                         "name": "CatPlugin",
-                        "homePage": "www.catplugin.net"
+                        "id":"MyGeneratorId",
+                        "homePage": "www.catplugin.net",
+                        "nickname":"catplugin"
                     }
                 };
 
