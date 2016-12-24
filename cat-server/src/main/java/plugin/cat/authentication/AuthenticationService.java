@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * Created by tolgacaner on 05/11/16.
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableEurekaClient
 public class AuthenticationService {
 

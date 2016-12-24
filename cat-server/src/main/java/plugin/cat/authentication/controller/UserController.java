@@ -66,8 +66,17 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count","/add", "/delete"}, method = RequestMethod.POST)
-    public void annotationRedirectGateway(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/add", "/delete"}, method = RequestMethod.POST)
+    public void annotationPrivateRedirectGateway(HttpServletRequest request, HttpServletResponse response) {
+        redirectGateway(request,response);
+    }
+
+    @RequestMapping(value = {"/advancedSearch", "/basicSearch","/basicSearch/count","/advancedSearch/count","/source","/source/count"}, method = RequestMethod.POST)
+    public void annotationPublicRedirectGateway(HttpServletRequest request, HttpServletResponse response) {
+        redirectGateway(request,response);
+    }
+
+    private void redirectGateway(HttpServletRequest request, HttpServletResponse response) {
         String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
         response.setStatus(308) ;
         response.addHeader("Location", "http://localhost:8081" + path);
