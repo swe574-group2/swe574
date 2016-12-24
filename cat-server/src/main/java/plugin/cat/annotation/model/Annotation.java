@@ -38,7 +38,8 @@ public class Annotation extends AbstractEntity {
 
     // Caution! This code may cause errors on some MYSQL versions.
     // Ex. Prefer XAMPP instead of WampServer
-    private Timestamp generated;
+    @JsonProperty("generated")
+    private Timestamp generatedTimeStamp;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AnnotationStylesheet stylesheet;
