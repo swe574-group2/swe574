@@ -2,15 +2,16 @@
 spring:
   application:
      name: annotation-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cat_annotation?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
 
-
-spring.datasource.driver-class-name: com.mysql.jdbc.Driver
-spring.datasource.url: jdbc:mysql://localhost:3306/annotation?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
-spring.datasource.username: root
-spring.datasource.password: root
-spring.jpa.generate-ddl: true
-spring.jpa.hibernate.ddl-auto: create
-spring.jpa.show-sql: true
 # Discovery Server Access
 eureka:
   client:
@@ -21,6 +22,7 @@ eureka:
   instance:
     preferIpAddress: true
     instanceId: annotation-service-instance
+
 # HTTP Server
 server:
   port: 8081   # HTTP (Tomcat) port
