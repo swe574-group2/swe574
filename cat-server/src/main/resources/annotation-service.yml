@@ -2,11 +2,15 @@
 spring:
   application:
      name: annotation-service
-  data-source:
-    url: jdbc:h2:mem:dev
-    driver-class-name: org.h2.Driver
 
 
+spring.datasource.driver-class-name: com.mysql.jdbc.Driver
+spring.datasource.url: jdbc:mysql://localhost:3306/annotation?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+spring.datasource.username: root
+spring.datasource.password: root
+spring.jpa.generate-ddl: true
+spring.jpa.hibernate.ddl-auto: create
+spring.jpa.show-sql: true
 # Discovery Server Access
 eureka:
   client:
