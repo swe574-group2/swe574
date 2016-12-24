@@ -6,14 +6,21 @@ $(document).ready(function () {
 })
 
 var groups=[];
-
-
+var loggedIn=false;
+var username="";
 var originalHtml="";
 function init(){
     console.log("cat is started...")
+    chrome.runtime.sendMessage({"action":"getUser"});
+
     $('img').imgAreaSelect({
         handles: true,
         onSelectEnd: function (e,selection) {
+            if(loggedIn==false) {
+                showAlert("Please login to add annotation");
+                return;
+            }
+
             $("#cat-annotations-container .panel-body").eq(1).append("<div id='cat-image-preview'>")
         },
         onSelectChange: preview
@@ -79,6 +86,11 @@ function addAnnotationsContainer() {
         " <div id='cat-info' style='font-size:12px;width:200px' class='alert alert-warning'>W3 Web Annotator</div><div class='clearfix'></div><hr/>" +
         "<div id='cat-container-body' style='height: 300px; padding: 10px; overflow-y: auto'></div>"+
         "</div></div>")
+
+    if(loggedIn==true){
+        showAlert("Welcome "+username+"!  Note: To add annotation please clik clear highlights button.");
+    }
+
 }
 function getHeaderHtml(){
     return "<div class='panel panel-default' ><div class='panel-heading'><h4 class='panel-title'>Cat Data Annotator</h4></div> <div class='panel-body'>" +
@@ -89,9 +101,12 @@ function getHeaderHtml(){
 function removeAnnotationsContainer() {
     $("#cat-annotations-container").addClass("hide");
     isCatActive=false;
+    $("body").html(originalHtml);
 }
 function addAnnotations(data){
     groups=[];
+    console.log("annotations to show:",data);
+    data=data.content;
     if(data==null || data==undefined) return;
 
     var $container=$("#cat-container-body");
@@ -106,20 +121,14 @@ function addAnnotations(data){
         //text selecton
        if(e.target.selector.type=="TextPositionSelector"){
            html+="<div id='cat-annotation-"+i+"'>"
-           html+="<div class='col-sm-12'>Type : TextSelection </div>";
-           html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
-           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
-           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
            html+="<div class='col-sm-12'><hr /></div></div>"
 
        }
        //image
        else if(e.target.selector.type==="FragmentSelector"){
            html+="<div id='cat-annotation-"+i+"'>"
-           html+="<div class='col-sm-12'>Type : FragmentSelector </div>";
-           html+="<div class='col-sm-12'>Selected Image : "+e.target.source+" </div>";
-           html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
-           html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+           html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
            html+="<div class='col-sm-12'><hr /></div></div>"
        }
 
@@ -192,7 +201,9 @@ function addAnnotations(data){
                 $(groups).each(function(i2,e2){
                     if(a2==false) {
                         var ann = e2.annotations[0];
-                        if (ann.target.source== e.target.source
+                        var target1=ann.target.selector.value.split("#")[0];
+                        var target2=e.target.selector.value.split("#")[0];
+                        if (target1== target2
                         ) {
                             a2 = true;
                             groups[i2].annotations.push(e);
@@ -220,7 +231,6 @@ function addAnnotations(data){
        if(ann.target.selector.type=="TextPositionSelector") {
            var found = false;
            $(".highlighted").each(function (i3, e3) {
-
                if ($(e3).text().startsWith(ann.target.selector.value)) {
                    found = true;
                }
@@ -228,19 +238,22 @@ function addAnnotations(data){
            if (found == false) {
                $(tempNodes).each(function (i2, e2) {
                    try {
-                       if (tempNodes[i2].nodeValue.substr(ann.target.selector.start, ann.target.selector.value.length) === ann.target.selector.value) {
-                           var html = e2.nodeValue.replace(ann.target.selector.value, "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>")
-                           $("body").html($("body").html().replace(ann.target.selector.value, html));
+                       if (e2.nodeValue.indexOf(ann.target.selector.value) !== -1) {
+                           var nodeValue=e2.nodeValue.toString();
+                           var html = "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>";
+                           var el=$(":contains('"+ann.target.selector.value+"')","body").eq(0);
+                           $(el).html(el.html().replace(ann.target.selector.value,html));
                        }
                    }
-                   catch (e) {
-
+                   catch (ex) {
+                        console.log("ex:",ex)
                    }
                });
            }
+           found=false;
        }
        else if(ann.target.selector.type=="FragmentSelector"){
-           highlightImage(ann.target.source,ann.target.selector,i);
+           highlightImage(ann.target.selector.value.split("#")[0],ann.target.selector,i);
        }
     });
 
@@ -268,20 +281,14 @@ function showSelectedAnnotationGroup(elm) {
             $(e2.annotations).each(function(i,e) {
                 if(e.target.selector.type=="TextPositionSelector"){
                     html+="<div id='cat-annotation-"+i+"'>"
-                    html+="<div class='col-sm-12'>Type : TextSelection </div>";
-                    html+="<div class='col-sm-12'>Selected Text : "+e.target.selector.value+" </div>";
-                    html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
-                    html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+                    html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
                     html+="<div class='col-sm-12'><hr /></div></div>"
 
                 }
                 //image
                 else if(e.target.selector.type==="FragmentSelector"){
                     html+="<div id='cat-annotation-"+i+"'>"
-                    html+="<div class='col-sm-12'>Type : FragmentSelector </div>";
-                    html+="<div class='col-sm-12'>Selected Image : "+e.target.source+" </div>";
-                    html+="<div class='col-sm-12'>Annotation : "+e.body.value+" </div>";
-                    html+="<div class='col-sm-12'>Purpose : "+e.body.purpose+" </div>";
+                    html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
                     html+="<div class='col-sm-12'><a class='annotation-highlight' data-groupId='"+index+"' data-id='"+i+"'>  Highlight</a> </div>";
                     html+="<div class='col-sm-12'><hr /></div></div>"
                 }
@@ -318,7 +325,7 @@ function highlightImage(src,selector,index){
             var slct=$(e).imgAreaSelect( {instance:true});
             slct.cancelSelection();
 
-            var arr= selector.value.replace("xywh=","").split(",");
+            var arr= selector.value.split("#")[1].replace("xywh=","").split(",");
 
             var options={movable:false,resizable:false,handles:false,x1:parseInt(arr[0]),  y1:parseInt(arr[1]),
                 x2: parseInt(arr[0])+parseInt(arr[2]),  y2:parseInt(arr[1])+parseInt(arr[3]),
@@ -371,17 +378,27 @@ function notifyExtension(e) {
 
     else if(e.target.id=='btnSaveTextAnnotation'){
         console.log("saving text-annotation");
+        if(loggedIn==false){
+            showAlert("Please login to add annotation");
+            username="";
+            return;
+        }
         chrome.runtime.sendMessage({"action":"saveTextAnnotation",data:common.getTextAnnotation()});
     }
     else if(e.target.id=='btnSaveImageAnnotation'){
         console.log("saving image annotation");
+        if(loggedIn==false){
+            showAlert("Please login to add annotation");
+            username="";
+            return;
+        }
         chrome.runtime.sendMessage({"action":"saveImageAnnotation",data:common.getImageAnnotation()});
     }
     else if($(e.target).hasClass("annotation-highlight") ){
         var groupId=$(e.target).data("groupid");
         var index=$(e.target).data("id");
         var ann=groups[groupId].annotations[index];
-        highlightImage(ann.target.source,ann.target.selector,groupId);
+        highlightImage(ann.target.selector.value.split("#")[0],ann.target.selector,groupId);
 
     }
 }
@@ -393,6 +410,10 @@ function notifyExtension(e) {
 window.addEventListener("mouseup", selectHandler);
 
 function selectHandler(e) {
+    if(loggedIn==false) {
+        showAlert("Please login to add annotation");
+        return;
+    }
     console.log($(e.target).parents("#cat-annotations-container").length)
     if(isCatActive==false && $(e.target).parents("#cat-annotations-container").length===1) return;
     var slct = window.getSelection();
@@ -404,6 +425,10 @@ function selectHandler(e) {
          common.textAnnotationForm(slct);
     }
 }
+function showAlert(message){
+    $("#cat-info").html(message);
+}
+
 
 function getSelectionText() {
     var text = "";
@@ -415,7 +440,30 @@ function getSelectionText() {
     return text;
 }
 
+function showSearchResults(data,search){
+    addAnnotationsContainer();
+    var html="<div class='row'>";
+    html+="<p style='margin-left: 15px'>Search results for <i style='color:#d43f3a'>'"+search+"'</i></p>";
+    $(data).each(function(i,e){
+        //text selecton
+        if(e.target.selector.type=="TextPositionSelector"){
+            html+="<div id='cat-annotation-"+i+"'>"
+            html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
+            html+="<div class='col-sm-12'><hr /></div></div>"
 
+        }
+        //image
+        else if(e.target.selector.type==="FragmentSelector"){
+            html+="<div id='cat-annotation-"+i+"'>"
+            html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
+            html+="<div class='col-sm-12'><hr /></div></div>"
+        }
+
+    });
+    html+="</div>";
+    $("#cat-container-body").html(html);
+
+}
 
 //** end text select event **/
 
@@ -433,6 +481,20 @@ function handleMessage(message) {
         removeAnnotationsContainer();
     }else if(message.action=="addTextSelectionForm"){
         common.textAnnotationForm(message.selection);
+    }else if(message.action=="userLoggedin"){
+        if(message.data.loggedIn==true) {
+            loggedIn = true;
+            showAlert("Welcome " + message.data.username + "! Note: To add annotation please clik clear highlights button.")
+            username=message.data.username;
+        }else{
+            showAlert("Please login to add annotation");
+            username="";
+            loggedIn=false;
+        }
+
+    }
+    else if(message.action=="showSearchResults"){
+        showSearchResults(message.data.items,message.data.search);
     }
 //ŞK01 B
     else if(message.action=="login"){
