@@ -1,7 +1,7 @@
 var cat;
 
 cat = (function () {
-    var serverUrl = "http://localhost:8080";
+    var serverUrl = "http://ec2-35-165-112-121.us-west-2.compute.amazonaws.com:8080/";
     //var authServerUrl = "http://localhost:8080";
 
 
