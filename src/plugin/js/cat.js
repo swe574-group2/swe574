@@ -47,13 +47,14 @@ cat = (function () {
             {
                 "name": nickname,
                 "nickname": nickname,
+                "email":email,
                 "userType": "ROLE_MEMBER",
                 "password": password
             };
             cat.post("/register", registerInputData, function (json) {
                 window.location = "index.html";
                 console.log("registration succeeded");
-            }, true);
+            }, false);
         },
 //ŞK01 B
         login: function () {
