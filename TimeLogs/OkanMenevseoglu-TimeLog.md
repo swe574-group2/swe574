@@ -200,16 +200,16 @@
     </tr>
         <tr>
         <td>13 (Final)</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/69">#69</a></td>
+        <td>1 hours</td>
+        <td>1 hours</td>
+        <td>Helped writing the project documentation.</td>
     </tr>
         <tr>
         <td>13 (Final)</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/70">#70</a></td>
+        <td>4 hours</td>
+        <td>12 hours</td>
+        <td>Deployed the project on an AWS instance.</td>
     </tr>
 </table>
