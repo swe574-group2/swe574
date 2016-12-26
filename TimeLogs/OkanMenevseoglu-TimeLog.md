@@ -177,8 +177,36 @@
         <td>4 hours</td>
         <td>Completed the security of the system on the server side of the project.</td>
     </tr>
+    <tr>
+        <td>10</td>
+        <td>-</td>
+        <td>4 hours</td>
+        <td>4 hours</td>
+        <td>Research about paging and how to implement search functionality using HQL (Hibernate Query Language).</td>
+    </tr>
         <tr>
+        <td>11</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/61">#61</a></td>
+        <td>3 hours</td>
+        <td>3 hours</td>
+        <td>Added paging functionality to the annotation server.</td>
+    </tr>
+        <tr>
+        <td>12</td>
+        <td><a href="https://github.com/swe574-group2/swe574/issues/66">#66</a></td>
+        <td>3 hours</td>
+        <td>4 hours</td>
+        <td>Added HQL for the search functionality on the annotation server.</td>
+    </tr>
+        <tr>
+        <td>13 (Final)</td>
         <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+        <tr>
+        <td>13 (Final)</td>
         <td></td>
         <td></td>
         <td></td>
