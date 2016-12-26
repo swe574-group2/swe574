@@ -40,3 +40,10 @@
 
 ## WEEK 12 (5 December - 12 December)
 * 11 December. Added id generation for annotation components that creates component-specific urls. Fixed registration webservice by returning String messages depending on nickname. Added an endpoint for deleting an annotation by id. Other fixes. (4 hours)
+
+## WEEK 13 (12 December - 19 December)
+* No code work team-wide
+
+## WEEK 14 (19 December - 26 December)
+* 25 December. Created the project documentation (4 hours)
+* 26 December. Helped debug issues during deployment, did fixes and proof-reading to other parts of the document, continued working on the document. (12 hours)
