@@ -66,6 +66,7 @@ var common = (function () {
             html += "<div class='pull-right'><button id='btnCloseTextAnnotation' class='btn  btn-sm btn-primary'>Close</button> &nbsp;<button id='btnSaveTextAnnotation' class='btn  btn-sm btn-success'>Save</button></div>";
             html += "</div>"; //panel-body
             html += "</div>"; //panel
+            common.addContainerIfNeeded();
             $("#cat-container-body").html(html);
 
         },
@@ -90,8 +91,12 @@ var common = (function () {
             html += "<div class='pull-right'><button id='btnCloseTextAnnotation' class='btn  btn-sm btn-primary'>Close</button> &nbsp;<button id='btnSaveImageAnnotation' class='btn  btn-sm btn-success'>Save</button></div>";
             html += "</div>"; //panel-body
             html += "</div>"; //panel
+            common.addContainerIfNeeded();
             $("#cat-container-body").html(html);
-
+        }, addContainerIfNeeded: function() {
+            if (!isCatActive) {
+                addAnnotationsContainer();
+            }
         },
 
         getTextAnnotation: function () {
