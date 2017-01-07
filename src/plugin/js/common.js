@@ -21,6 +21,7 @@ var common = (function () {
             html += "<option value='questioning'>Questioning</option>";
             html += "<option value='replying'>Replying</option>";
             html += "<option value='tagging'>Tagging</option>";
+            html += "<option value='translation'>Translation</option>";
             html += "</select>"
 
             return html;

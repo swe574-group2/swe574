@@ -122,16 +122,14 @@ function addAnnotations(data){
        if(e.target.selector.type=="TextPositionSelector"){
            html+="<div id='cat-annotation-"+i+"'>"
            html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
-           html+="<div class='col-sm-12'><hr /></div></div>"
-
-       }
-       //image
+       }//image
        else if(e.target.selector.type==="FragmentSelector"){
            html+="<div id='cat-annotation-"+i+"'>"
            html+="<div class='col-sm-12'>\"<u style='color:#2aabd2'>"+e.body.value+"</u>\"<span style='font-size:9px'> by "+e.creator.name+","+new Date(e.created)+" </span></div>";
-           html+="<div class='col-sm-12'><hr /></div></div>"
-       }
 
+       }
+        html+="<div class='col-sm-12'><span style='border:1px solid #2aabd2; border-radius: 7px; padding: 1px; color:#2aabd2;'>" + e.motivation + "</span></div>";
+        html+="<div class='col-sm-12'><hr /></div></div>";
     });
     html+="</div>";
 
