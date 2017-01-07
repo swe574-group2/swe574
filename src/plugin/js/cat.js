@@ -136,13 +136,8 @@ cat = (function () {
                 annotation.id = annotation.id.split("#.")[0];
             if (annotation.target.source.split("#.").length > 0)
                 annotation.target.source = annotation.target.source.split("#.")[0];
-            console.log("saveannaft " + annotation.id);
-            console.log("saveannaft2 " + annotation.target.source);
-            console.log(JSON.stringify(annotation));
             cat.post("/add", annotation, function (json) {
                 //get annotations
-
-                console.log("show annotations after save");
                 cat.showAnnotations();
             },true)
 
@@ -168,17 +163,15 @@ cat = (function () {
                 headers:headers,
                 cache: false,
                 success: function (json) {
-                    console.log("success", json)
                     if (success)
                         success(json);
                 },
                 error: function (json) {
-                    console.log(json)
                     //$("#cat-info").removeClass("hide").html(JSON.parse(json.responseText).message);
 
                 },
                 complete: function (json) {
-                    console.log("post completed", json)
+                    console.log("post completed", JSON.stringify(json));
                 },
                 //dataType: "json",
                 contentType: "application/json; charset=utf-8"

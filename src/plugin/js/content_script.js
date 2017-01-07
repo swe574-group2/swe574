@@ -236,16 +236,21 @@ function addAnnotations(data){
                }
            });
            if (found == false) {
+               var added = new Array();
                $(tempNodes).each(function (i2, e2) {
                    try {
-                       if (e2.nodeValue.indexOf(ann.target.selector.value) !== -1) {
+                       if (e2.nodeValue.indexOf(ann.target.selector.value) !== -1 && added.indexOf(ann.target.selector.value) == -1) {
                            var nodeValue=e2.nodeValue.toString();
                            var html = "<span data-index='" + i + "' style='border:1px solid red;' class='highlighted'>" + ann.target.selector.value + " <span class='badge'>" + e.annotations.length + "</span></span>";
                            var el=$(":contains('"+ann.target.selector.value+"')","body").eq(0);
+                           console.log("debug22");
+                           console.log($(el).html());
                            $(el).html(el.html().replace(ann.target.selector.value,html));
+                           added.push(ann.target.selector.value);
                        }
                    }
                    catch (ex) {
+                       console.log("debug3");
                         console.log("ex:",ex)
                    }
                });
