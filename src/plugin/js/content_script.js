@@ -106,6 +106,7 @@ function removeAnnotationsContainer() {
 function addAnnotations(data){
     groups=[];
     console.log("annotations to show:",data);
+    console.log("count: ",data.content.length);
     data=data.content;
     if(data==null || data==undefined) return;
 
@@ -369,10 +370,7 @@ function notifyExtension(e) {
             var index=parseInt($(e).data("index"));
             $(e).replaceWith(groups[index].annotations[0].target.selector.value);
         });*/
-        $("img","body").each(function (i,e) {
-            $(e).imgAreaSelect({remove:true});
-        });
-        $("body").html(originalHtml);
+        clearHighlights();
 
         addAnnotationsContainer();
         init();
@@ -505,4 +503,17 @@ function handleMessage(message) {
         //
     }
 //ŞK01 E
+    else if (message.action=="clearHighlights") {
+        clearHighlights();
+        addAnnotationsContainer();
+        sendResponse("cleared");
+    }
+}
+
+function clearHighlights() {
+    $("img","body").each(function (i,e) {
+        $(e).imgAreaSelect({remove:true});
+    });
+    $("body").html(originalHtml);
+
 }

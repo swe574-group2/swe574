@@ -546,11 +546,9 @@ $.imgAreaSelect = function (img, options) {
     }
 
     function setOptions(newOptions) {
-        console.log("border",$border);
         if (newOptions.parent)
             ($parent = $(newOptions.parent)).append($box.add($outer));
         if(newOptions.index!==undefined) {
-            console.log("b3",$border[3])
             $($border[3]).attr("data-index", newOptions.index);
         }
 

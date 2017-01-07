@@ -9,43 +9,47 @@ cat = (function () {
         username : "",
         count:0,
         password:"",
-        getAnnotationCount: function () {
+        getAnnotationCount: function (completed) {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
                 console.log("cat.js: Retrieving Count");
                 var url = tabs[0].url;
                 if (url.split("#.").length > 0)
                     url = url.split("#.")[0];
-                console.log("sss " + url);
                 cat.post("/source/count", {"targetSource": url}, function (json) {
+                    console.log("cat.js: Retrieved Count: " + json);
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
                     cat.count=json;
+                    if (completed) {
+                        completed();
+                    }
                 })
             });
 
         },
         showAnnotations: function () {
-            cat.getAnnotationCount();
-            if(cat.count==0) cat.count=1;
-            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                console.log("current tab url:" + tabs[0].url);
-                var url = tabs[0].url;
-                if (url.split("#.").length > 0)
-                    url = url.split("#.")[0];
-                console.log("sss " + url);
-                cat.post("/source", {"targetSource": url,pageNumber:1,pageSize:cat.count}, function (json) {
-                    chrome.tabs.sendMessage(tabs[0].id, {
-                        "sender": "cat",
-                        "action": "showAnnotations",
-                        "data": json
-                    }, function (response) {
+            cat.getAnnotationCount(function() {
+                if(cat.count==0) cat.count=1;
+                chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    console.log("current tab url:" + tabs[0].url);
+                    var url = tabs[0].url;
+                    if (url.split("#.").length > 0)
+                        url = url.split("#.")[0];
+                    console.log("showing for target " + url);
+                    console.log("count: " + cat.count);
+                    cat.post("/source", {"targetSource": url,pageNumber:1,pageSize:cat.count}, function (json) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            "sender": "cat",
+                            "action": "showAnnotations",
+                            "data": json
+                        }, function (response) {
+                        });
                     });
+
                 });
-
             });
-
         },
         register: function () {
             var nickname = $("#nickName").val();
@@ -136,9 +140,32 @@ cat = (function () {
                 annotation.id = annotation.id.split("#.")[0];
             if (annotation.target.source.split("#.").length > 0)
                 annotation.target.source = annotation.target.source.split("#.")[0];
+//"TextPositionSelector"
+            if (annotation.target.selector.type == "TextPositionSelector") {
+                var trimmed = $.trim(annotation.target.selector.value);
+                if (trimmed.length !== annotation.target.selector.value.length) {
+                    var diff = annotation.target.selector.value.length - trimmed.length;
+                    annotation.target.selector.value = trimmed;
+                    if (annotation.target.selector.value.charAt(0) == trimmed.charAt(0)) { //means trim was done to the right
+                        annotation.target.selector.end = annotation.target.selector.end - diff;
+                    } else if (annotation.target.selector.value.charAt(annotation.target.selector.value.length-1) == trimmed.charAt(trimmed.length-1)) {
+                        annotation.target.selector.start = annotation.target.selector.start + diff;
+                    }
+                }
+            }
+
             cat.post("/add", annotation, function (json) {
                 //get annotations
-                cat.showAnnotations();
+                chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        "sender": "cat",
+                        "action": "clearHighlights",
+                        "data":{}
+                    }, function (response) {
+                        console.log("got response: " + response);
+                        cat.showAnnotations();
+                    });
+                });
             },true)
 
         },
