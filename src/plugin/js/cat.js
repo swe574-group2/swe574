@@ -13,7 +13,11 @@ cat = (function () {
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 $("#info").html("Retriving count...");
                 console.log("cat.js: Retrieving Count");
-                cat.post("/source/count", {"targetSource": tabs[0].url}, function (json) {
+                var url = tabs[0].url;
+                if (url.split("#.").length > 0)
+                    url = url.split("#.")[0];
+                console.log("sss " + url);
+                cat.post("/source/count", {"targetSource": url}, function (json) {
                     $("#info").addClass("hide");
                     $("#btnShowAnnotations").text("Show Annotations (" + json + ")");
                     $("#btnShowAnnotations").removeClass("hide");
@@ -27,7 +31,11 @@ cat = (function () {
             if(cat.count==0) cat.count=1;
             chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 console.log("current tab url:" + tabs[0].url);
-                cat.post("/source", {"targetSource": tabs[0].url,pageNumber:1,pageSize:cat.count}, function (json) {
+                var url = tabs[0].url;
+                if (url.split("#.").length > 0)
+                    url = url.split("#.")[0];
+                console.log("sss " + url);
+                cat.post("/source", {"targetSource": url,pageNumber:1,pageSize:cat.count}, function (json) {
                     chrome.tabs.sendMessage(tabs[0].id, {
                         "sender": "cat",
                         "action": "showAnnotations",
@@ -124,7 +132,13 @@ cat = (function () {
         saveAnnotation: function (annotation) {
             annotation.creator.name=cat.username;
             annotation.creator.nickname=cat.username;
-            console.log(annotation);
+            if (annotation.id.split("#.").length > 0)
+                annotation.id = annotation.id.split("#.")[0];
+            if (annotation.target.source.split("#.").length > 0)
+                annotation.target.source = annotation.target.source.split("#.")[0];
+            console.log("saveannaft " + annotation.id);
+            console.log("saveannaft2 " + annotation.target.source);
+            console.log(JSON.stringify(annotation));
             cat.post("/add", annotation, function (json) {
                 //get annotations
 
