@@ -134,8 +134,11 @@ cat = (function () {
             annotation.creator.nickname=cat.username;
             if (annotation.id.split("#.").length > 0)
                 annotation.id = annotation.id.split("#.")[0];
-            console.log("sss " + annotation.id);
-            console.log(annotation);
+            if (annotation.target.source.split("#.").length > 0)
+                annotation.target.source = annotation.target.source.split("#.")[0];
+            console.log("saveannaft " + annotation.id);
+            console.log("saveannaft2 " + annotation.target.source);
+            console.log(JSON.stringify(annotation));
             cat.post("/add", annotation, function (json) {
                 //get annotations
 
